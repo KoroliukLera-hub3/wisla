@@ -103,41 +103,21 @@ const reviewImages = [
   import Swiper from 'swiper';
   import { Navigation, Autoplay, EffectFade } from 'swiper/modules';
 
-  const initSwiper = () => {
-    // Ждем один кадр анимации перед инициализацией, чтобы DOM "успокоился"
+  const startReviews = () => {
+    // Двойной requestAnimationFrame — самый надежный способ избежать Layout Thrashing
     requestAnimationFrame(() => {
-      const swiperEl = document.querySelector('.reviews-swiper');
-      if (!swiperEl) return;
-
-      const swiper = new Swiper('.reviews-swiper', {
-        modules: [Navigation, Autoplay, EffectFade],
-        observer: true,
-        observeParents: true,
-        slidesPerView: 1,
-        spaceBetween: 40,
-        loop: true,
-        effect: 'fade',
-        fadeEffect: { crossFade: true },
-        speed: 800,
-        autoplay: {
-          delay: 8000,
-          disableOnInteraction: true,
-        },
-        navigation: {
-          nextEl: '#reviews-next, #reviews-next-mob',
-          prevEl: '#reviews-prev, #reviews-prev-mob',
-        },
+      requestAnimationFrame(() => {
+        const swiper = new Swiper('.reviews-swiper', {
+          modules: [Navigation, Autoplay, EffectFade],
+          init: true, 
+          observer: true,
+          observeParents: true,
+          // твои настройки...
+        });
       });
-
-      // Показываем слайдер плавно после инициализации
-      swiperEl.classList.remove('opacity-0');
     });
   };
 
-  // Инициализируем только при полной загрузке, чтобы не вызывать Layout Thrashing
-  if (document.readyState === 'complete') {
-    initSwiper();
-  } else {
-    window.addEventListener('load', initSwiper);
-  }
+  // Запускаем только после загрузки всех ресурсов
+  window.addEventListener('load', startReviews);
 </script>
