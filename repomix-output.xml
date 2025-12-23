@@ -51,12 +51,19 @@ public/images/about-pool.webp
 public/images/about-team.webp
 public/images/about-textures.webp
 public/images/Blik.png
+public/images/club-cards.webp
+public/images/club-interior.webp
+public/images/club-roulette.webp
+public/images/club-slots.webp
 public/images/contact-map.webp
 public/images/contact-room.webp
 public/images/dining-cocktail.webp
 public/images/dining-duck.webp
 public/images/dining-main.webp
 public/images/dining-soup.webp
+public/images/exp-fishing.webp
+public/images/exp-hero.webp
+public/images/exp-sauna.webp
 public/images/hero-main.webp
 public/images/logo-iconцц.webp
 public/images/logo-white.svg
@@ -130,7 +137,8 @@ src/components/sections/RoomsGrid.astro
 src/components/sections/WelcomeGrid.astro
 src/components/ui/BookingDrawer.astro
 src/components/ui/BookingWidget.astro
-src/components/Welcome.astro
+src/components/ui/CookieConsent.astro
+src/data/activities.json
 src/data/dining.json
 src/data/features.json
 src/data/navigation.json
@@ -142,10 +150,14 @@ src/layouts/MainLayout.astro
 src/lib/supabase.js
 src/pages/aktualnosci/[slug].astro
 src/pages/aktualnosci/index.astro
+src/pages/club.astro
+src/pages/doswiadczenia.astro
 src/pages/index.astro
 src/pages/kontakt.astro
 src/pages/o-nas.astro
 src/pages/pokoje.astro
+src/pages/polityka.astro
+src/pages/regulamin.astro
 src/pages/rezerwacja/status.astro
 src/styles/global.css
 src/utils/SmoothScroll.astro
@@ -155,33 +167,6 @@ tsconfig.json
 <files>
 This section contains the contents of the repository's files.
 
-<file path=".gitignore">
-# build output
-dist/
-
-# generated types
-.astro/
-
-# dependencies
-node_modules/
-
-# logs
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-pnpm-debug.log*
-
-# environment variables
-.env
-.env.production
-
-# macOS-specific files
-.DS_Store
-
-# jetbrains setting folder
-.idea/
-</file>
-
 <file path="astro.config.mjs">
 // @ts-check
 import { defineConfig } from "astro/config";
@@ -189,8 +174,26 @@ import tailwindcss from "@tailwindcss/vite";
 
 // https://astro.build/config
 export default defineConfig({
+  // Опции сборки
+  build: {
+    format: 'file', // Оптимизирует структуру файлов
+    inlineStylesheets: 'always', // Помогает уменьшить количество лишних запросов
+  },
+  
+  // Опции компрессии HTML
+  compressHTML: true, // Это ГЛАВНЫЙ ПАРАМЕТР: он удаляет пробелы и HTML-комментарии при билде
+  
   vite: {
     plugins: [tailwindcss()],
+    build: {
+      // Удаление комментариев из JS и CSS файлов
+      minify: 'terser',
+      terserOptions: {
+        format: {
+          comments: false, // Полностью удаляет комментарии из скомпилированного JS
+        },
+      },
+    },
   },
 });
 </file>
@@ -217,7 +220,8 @@ export default defineConfig({
     "tailwindcss": "^4.1.18"
   },
   "devDependencies": {
-    "@tailwindcss/typography": "^0.5.19"
+    "@tailwindcss/typography": "^0.5.19",
+    "terser": "^5.44.1"
   }
 }
 </file>
@@ -239,46 +243,18 @@ const TIMEOUT_MS = 60000;    // Таймаут запроса (60 сек)
 
 // --- ЗАДАЧИ ГЕНЕРАЦИИ (ПОЛНЫЙ СПИСОК) ---
 const tasks = [
-  // --- 1. ОБЛОЖКИ НОВОСТЕЙ ---
- // --- 11. ROOMS (POKOJE) ---
- // ==========================================
-  // КОЛЛЕКЦИЯ НОМЕРОВ (POKOJE) - ПОЛНЫЙ СПИСОК
-  // ==========================================
-
-  // 1. Pokój Leśny (Упор на лес и уют)
-  {
-    filename: "public/images/room-forest.webp",
-    prompt: "Interior of a cozy minimalist hotel room, king size bed with organic linen, huge floor-to-ceiling window looking directly at a dense pine forest wall, soft morning fog outside, warm wood paneling, tactile textures, high-end architectural photography --ar 4:3"
+ // --- 12. EXPERIENCES (DOŚWIADCZENIA) ---
+ {
+    filename: "public/images/club-roulette.webp",
+    prompt: "Luxury wooden roulette wheel in motion, golden ball spinning, dark moody lighting, elegant casino atmosphere, macro architectural shot --ar 4:3"
   },
-
-  // 2. Studio Potok (Упор на воду и близость к реке)
   {
-    filename: "public/images/room-stream.webp",
-    prompt: "Modern luxury hotel studio located right on the river bank, panoramic corner window overlooking a rushing mountain stream and mossy rocks, minimalist interior with concrete and light oak, natural daylight, serenity, 8k --ar 4:3"
+    filename: "public/images/club-slots.webp",
+    prompt: "Modern high-end slot machines in a dark luxury lounge, glowing neon accents, blur background, sophisticated gaming room, 8k --ar 4:3"
   },
-
-  // 3. Loft Górski (Упор на высоту и архитектуру)
   {
-    filename: "public/images/room-loft.webp",
-    prompt: "Luxury double-height mountain loft hotel suite, mezzanine bedroom with glass railing, tall black-framed windows showing mountain peaks, minimalist work desk, modern fireplace, dramatic scale, architectural magazine style --ar 4:3"
-  },
-
-  // 4. Apartament Rodzinny (Упор на пространство и обеденную зону)
-  {
-    filename: "public/images/room-family.webp",
-    prompt: "Spacious luxury family hotel suite, large solid oak dining table, elegant living area, wide terrace with forest view, bright and warm atmosphere, high-quality furniture, natural materials, family-friendly high-end design --ar 4:3"
-  },
-
-  // 5. Apartament Zen (Упор на сауну и эстетику ваби-саби)
-  {
-    filename: "public/images/room-zen.webp",
-    prompt: "Minimalist zen hotel suite, private glass sauna integrated into the room design, wabi-sabi aesthetic, clay walls, low platform bed, yoga mat, bonsai tree, soft diffused lighting, spa-like atmosphere --ar 4:3"
-  },
-
-  // 6. Apartament Wisła (Флагман: ванна и панорама)
-  {
-    filename: "public/images/room-grand.webp",
-    prompt: "The most luxurious hotel suite, freestanding white bathtub positioned next to a giant panoramic window overlooking the Wisla river bend, emperor size bed, dark wood and stone textures, sunset mood, pure luxury --ar 4:3"
+    filename: "public/images/club-cards.webp",
+    prompt: "Close up of playing cards and luxury chips on green felt poker table, glass of whiskey nearby, cinematic lighting, boutique hotel style --ar 4:3"
   }
 ];
 
@@ -698,7 +674,7 @@ const icons = {
         <h4 class="font-serif text-xl text-white">Menu</h4>
         <nav class="flex flex-col gap-3">
           <a href="/pokoje" class="text-gray-400 hover:text-accent transition-colors text-sm uppercase tracking-wider">Pokoje i Apartamenty</a>
-          <a href="/restauracja" class="text-gray-400 hover:text-accent transition-colors text-sm uppercase tracking-wider">Restauracja</a>
+          <a href="/doswiadczenia" class="text-gray-400 hover:text-accent transition-colors text-sm uppercase tracking-wider">Doswiadczenia</a>
           <a href="/spa" class="text-gray-400 hover:text-accent transition-colors text-sm uppercase tracking-wider">Wellness & SPA</a>
           <a href="/o-nas" class="text-gray-400 hover:text-accent transition-colors text-sm uppercase tracking-wider">O Nas</a>
           <a href="/kontakt" class="text-gray-400 hover:text-accent transition-colors text-sm uppercase tracking-wider">Kontakt</a>
@@ -1146,7 +1122,7 @@ const { title, subtitle, description, menuHighlights, gallery } = content;
             alt="Fine Dining Dish" 
             class="w-full h-full  transition-transform duration-700 group-hover:scale-105"
           />
-          <a href="/rezerwacja-stolika" class="absolute bottom-0 right-0 bg-white text-primary px-8 py-4 text-xs font-bold uppercase tracking-widest hover:bg-accent hover:text-white transition-colors">
+          <a href="/doswiadczenia" class="absolute bottom-0 right-0 bg-white text-primary px-8 py-4 text-xs font-bold uppercase tracking-widest hover:bg-accent hover:text-white transition-colors">
             Zarezerwuj Stolik
           </a>
         </div>
@@ -1225,7 +1201,8 @@ const {
     <img
       src={imagePath}
       alt="Grand Hotel Wisla"
-      class="w-full h-full object-cover"
+      class="w-full h-full  object-cover"
+      fetchpriority="high"
     />
     <div class="absolute inset-0 bg-gradient-to-r from-black/50 via-black/20 to-black/50"></div>
   </div>
@@ -1243,8 +1220,8 @@ const {
         <a href="#pokoje" class="bg-surface text-primary px-8 py-4 text-xs font-bold uppercase tracking-widest hover:bg-accent hover:text-surface transition-all duration-300">
           Nasze Pokoje
         </a>
-        <a href="#restauracja" class="border border-surface px-8 py-4 text-xs font-bold uppercase tracking-widest text-surface hover:bg-surface hover:text-primary transition-all duration-300">
-          Restauracja
+        <a href="#Doswiadczenia" class="border border-surface px-8 py-4 text-xs font-bold uppercase tracking-widest text-surface hover:bg-surface hover:text-primary transition-all duration-300">
+          Doswiadczenia
         </a>
     </div>
   </div>
@@ -1446,9 +1423,11 @@ const reviewImages = [
   import { Navigation, Autoplay, EffectFade } from 'swiper/modules';
   import 'swiper/css/effect-fade'; // Импорт стилей эффекта
 
-  const swiper = new Swiper('.reviews-swiper', {
+ const swiper = new Swiper('.reviews-swiper', {
     modules: [Navigation, Autoplay, EffectFade],
-    
+    init: false, // Откладываем
+    observer: true, 
+    observeParents: true,
     slidesPerView: 1, // Показываем только 1 отзыв (как на референсе)
     spaceBetween: 40,
     loop: true,
@@ -1620,7 +1599,6 @@ const largeRoom = roomsData.items[2];
 ---
 import roomsData from '../../data/rooms.json';
 
-// Твои иконки из шторки
 const icons = {
   close: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="currentColor"><path d="M205.66,194.34a8,8,0,0,1-11.32,11.32L128,139.31,61.66,205.66a8,8,0,0,1-11.32-11.32L116.69,128,50.34,61.66A8,8,0,0,1,61.66,50.34L128,116.69l66.34-66.35a8,8,0,0,1,11.32,11.32L139.31,128Z"></path></svg>`,
   calendar: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="currentColor"><path d="M216,40H176V24a8,8,0,0,0-16,0V40H96V24a8,8,0,0,0-16,0V40H40A16,16,0,0,0,24,56V200a16,16,0,0,0,16,16H216a16,16,0,0,0,16-16V56A16,16,0,0,0,216,40Zm0,160H40V96H216V200Z"></path></svg>`,
@@ -1629,20 +1607,20 @@ const icons = {
 };
 ---
 
-<div id="booking-drawer" class="fixed inset-0 z-[100] invisible" aria-hidden="true">
+<div id="booking-drawer" class="fixed inset-0 z-[100] invisible" aria-hidden="true" data-analytics-section="booking-drawer">
   <div id="booking-backdrop" class="absolute inset-0 bg-primary/60 backdrop-blur-sm opacity-0 transition-opacity duration-500 ease-in-out"></div>
 
   <div id="booking-panel" class="absolute top-0 right-0 h-full w-full max-w-md bg-surface shadow-2xl transform translate-x-full transition-transform duration-500 cubic-bezier(0.16, 1, 0.3, 1) flex flex-col">
     
     <div class="flex items-center justify-between p-6 border-b border-gray-200 bg-white shrink-0">
       <h3 class="font-serif text-2xl text-primary">Twoja Rezerwacja</h3>
-      <button id="close-drawer" class="w-10 h-10 flex items-center justify-center hover:bg-gray-100 transition-colors text-primary cursor-pointer">
+      <button id="close-drawer" class="w-10 h-10 flex items-center justify-center hover:bg-gray-100 transition-colors text-primary cursor-pointer" data-analytics-action="close-drawer">
         <div class="w-6 h-6" set:html={icons.close} />
       </button>
     </div>
 
     <div class="flex-grow p-6 overflow-y-auto bg-surface space-y-8">
-      <form id="booking-form" class="flex flex-col gap-8">
+      <form id="booking-form" class="flex flex-col gap-8" novalidate data-analytics-form="booking">
         
         <div class="flex flex-col gap-3">
           <label class="text-[10px] font-bold uppercase tracking-widest text-gray-500">Dane Kontaktowe</label>
@@ -1652,6 +1630,7 @@ const icons = {
             required 
             placeholder="Twój numer telefonu" 
             class="bg-white p-4 border border-gray-200 outline-none focus:border-accent font-serif text-lg text-primary transition-all"
+            data-analytics-input="phone"
           />
         </div>
 
@@ -1663,14 +1642,14 @@ const icons = {
                 <div class="w-3.5 h-3.5" set:html={icons.calendar} />
                 <span class="text-[9px] uppercase font-bold">Przyjazd</span>
               </div>
-              <input type="date" id="drawer-date-in" required class="w-full bg-transparent outline-none font-serif text-base text-primary cursor-pointer p-0" />
+              <input type="date" id="drawer-date-in" required class="w-full bg-transparent outline-none font-serif text-base text-primary cursor-pointer p-0" data-analytics-input="date-in" />
             </div>
             <div class="bg-white p-3 border border-gray-200 focus-within:border-accent">
               <div class="flex items-center gap-2 text-accent mb-1">
                 <div class="w-3.5 h-3.5" set:html={icons.calendar} />
                 <span class="text-[9px] uppercase font-bold">Wyjazd</span>
               </div>
-              <input type="date" id="drawer-date-out" required class="w-full bg-transparent outline-none font-serif text-base text-primary cursor-pointer p-0" />
+              <input type="date" id="drawer-date-out" required class="w-full bg-transparent outline-none font-serif text-base text-primary cursor-pointer p-0" data-analytics-input="date-out" />
             </div>
           </div>
         </div>
@@ -1685,8 +1664,10 @@ const icons = {
                             name="room_selection" 
                             value={room.id} 
                             data-price={room.price}
+                            data-room-name={room.name}
                             class="peer sr-only" 
                             checked={index === 0}
+                            data-analytics-room-id={room.id}
                         />
                         <div class="bg-white p-3 border border-gray-200 peer-checked:border-accent peer-checked:ring-1 peer-checked:ring-accent transition-all duration-300 flex items-center gap-4 hover:border-gray-300">
                             <div class="w-16 h-16 overflow-hidden shrink-0 bg-gray-100">
@@ -1715,9 +1696,9 @@ const icons = {
                  <span class="font-bold text-sm text-primary">Dorośli</span>
               </div>
               <div class="flex items-center gap-3">
-                <button type="button" class="w-7 h-7 border border-gray-300 flex items-center justify-center hover:border-accent hover:text-accent transition-colors">-</button>
-                <span class="font-serif text-lg w-4 text-center">2</span>
-                <button type="button" class="w-7 h-7 border border-gray-300 flex items-center justify-center hover:border-accent hover:text-accent transition-colors">+</button>
+                <button type="button" class="w-7 h-7 border border-gray-300 flex items-center justify-center hover:border-accent hover:text-accent transition-colors" data-analytics-action="guest-minus">-</button>
+                <span class="font-serif text-lg w-4 text-center" data-analytics-value="guest-count">2</span>
+                <button type="button" class="w-7 h-7 border border-gray-300 flex items-center justify-center hover:border-accent hover:text-accent transition-colors" data-analytics-action="guest-plus">+</button>
               </div>
            </div>
         </div>
@@ -1738,6 +1719,7 @@ const icons = {
         form="booking-form" 
         id="submit-booking-btn"
         class="w-full bg-primary text-white py-4 font-bold uppercase tracking-[0.2em] hover:bg-accent transition-colors duration-300 shadow-lg text-xs md:text-sm cursor-pointer"
+        data-analytics-action="confirm-booking"
       >
         Potwierdź Rezerwację
       </button>
@@ -1747,7 +1729,6 @@ const icons = {
 </div>
 
 <script>
-  // Проверь путь! Если файл в src/components/ui/, то до lib/supabase два уровня вверх
   import { supabase } from '../../lib/supabase';
 
   const drawer = document.getElementById('booking-drawer');
@@ -1756,14 +1737,19 @@ const icons = {
   const closeBtn = document.getElementById('close-drawer');
   const form = document.getElementById('booking-form') as HTMLFormElement;
 
-  // Закрытие
+  // Функция для логов (позже сюда добавишь GTM push)
+  const trackEvent = (action: string, label?: string) => {
+    console.log(`[Analytics] Action: ${action}${label ? ` | Label: ${label}` : ''}`);
+    // window.dataLayer?.push({'event': 'booking_event', 'action': action, 'label': label});
+  };
+
   function closeDrawer() {
     panel?.classList.add('translate-x-full');
     backdrop?.classList.add('opacity-0');
     setTimeout(() => drawer?.classList.add('invisible'), 500);
+    trackEvent('close_drawer');
   }
 
-  // Открытие (Глобально)
   window.openBookingDrawer = (roomId = null) => {
     drawer?.classList.remove('invisible');
     setTimeout(() => {
@@ -1777,16 +1763,15 @@ const icons = {
         if (input) input.checked = true;
       }
     }, 10);
+    trackEvent('open_drawer', roomId || 'default');
   };
 
   closeBtn?.addEventListener('click', closeDrawer);
   backdrop?.addEventListener('click', closeDrawer);
 
-  // --- ЛОГИКА ОТПРАВКИ ---
   form?.addEventListener('submit', async (e) => {
     e.preventDefault();
-    console.log("Form submit started..."); // Для проверки в консоли
-
+    
     const submitBtn = document.getElementById('submit-booking-btn') as HTMLButtonElement;
     const phoneInput = document.getElementById('drawer-phone') as HTMLInputElement;
     const dateInInput = document.getElementById('drawer-date-in') as HTMLInputElement;
@@ -1794,13 +1779,14 @@ const icons = {
 
     if (!submitBtn || !phoneInput || !roomInput) return;
 
-    // Визуальный фидбек
     submitBtn.disabled = true;
     submitBtn.textContent = "PRZETWARZANIE...";
 
     const phone = phoneInput.value;
     const roomId = roomInput.value;
     const dateIn = dateInInput.value;
+
+    trackEvent('submit_attempt', roomId);
 
     try {
       const { error } = await supabase
@@ -1813,11 +1799,12 @@ const icons = {
 
       if (error) throw error;
 
-      console.log("Success! Redirecting...");
+      trackEvent('submit_success', roomId);
       localStorage.setItem('current_user_phone', phone);
       window.location.href = '/rezerwacja/status';
 
     } catch (err) {
+      trackEvent('submit_error', roomId);
       console.error("Booking Error:", err);
       alert("Błąd rezerwacji. Spróbuj ponownie.");
       submitBtn.disabled = false;
@@ -1908,217 +1895,127 @@ const icons = {
 </div>
 </file>
 
-<file path="src/components/Welcome.astro">
+<file path="src/components/ui/CookieConsent.astro">
 ---
-import astroLogo from '../assets/astro.svg';
-import background from '../assets/background.svg';
+// Компонент согласия на использование файлов cookie
 ---
 
-<div id="container">
-	<img id="background" src={background.src} alt="" fetchpriority="high" />
-	<main>
-		<section id="hero">
-			<a href="https://astro.build"
-				><img src={astroLogo.src} width="115" height="48" alt="Astro Homepage" /></a
-			>
-			<h1>
-				To get started, open the <code><pre>src/pages</pre></code> directory in your project.
-			</h1>
-			<section id="links">
-				<a class="button" href="https://docs.astro.build">Read our docs</a>
-				<a href="https://astro.build/chat"
-					>Join our Discord <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 127.14 96.36"
-						><path
-							fill="currentColor"
-							d="M107.7 8.07A105.15 105.15 0 0 0 81.47 0a72.06 72.06 0 0 0-3.36 6.83 97.68 97.68 0 0 0-29.11 0A72.37 72.37 0 0 0 45.64 0a105.89 105.89 0 0 0-26.25 8.09C2.79 32.65-1.71 56.6.54 80.21a105.73 105.73 0 0 0 32.17 16.15 77.7 77.7 0 0 0 6.89-11.11 68.42 68.42 0 0 1-10.85-5.18c.91-.66 1.8-1.34 2.66-2a75.57 75.57 0 0 0 64.32 0c.87.71 1.76 1.39 2.66 2a68.68 68.68 0 0 1-10.87 5.19 77 77 0 0 0 6.89 11.1 105.25 105.25 0 0 0 32.19-16.14c2.64-27.38-4.51-51.11-18.9-72.15ZM42.45 65.69C36.18 65.69 31 60 31 53s5-12.74 11.43-12.74S54 46 53.89 53s-5.05 12.69-11.44 12.69Zm42.24 0C78.41 65.69 73.25 60 73.25 53s5-12.74 11.44-12.74S96.23 46 96.12 53s-5.04 12.69-11.43 12.69Z"
-						></path></svg
-					>
-				</a>
-			</section>
-		</section>
-	</main>
+<div 
+  id="cookie-banner" 
+  class="fixed bottom-6 left-6 right-6 md:left-auto md:max-w-md bg-primary text-white p-6 shadow-2xl z-[200] transform translate-y-[150%] transition-transform duration-700 ease-out border border-white/10"
+>
+  <div class="flex flex-col gap-4">
+    <div class="flex items-center gap-3 text-accent">
+      <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 256 256" fill="currentColor">
+        <path d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm0,192a88,88,0,1,1,88-88A88.1,88.1,0,0,1,128,216ZM104,104a12,12,0,1,1,12,12A12,12,0,0,1,104,104Zm64,0a12,12,0,1,1,12,12A12,12,0,0,1,168,104Zm-40,80a32,32,0,0,1-32-32,8,8,0,0,1,16,0,16,16,0,0,0,32,0,8,8,0,0,1,16,0A32,32,0,0,1,128,184Z"></path>
+      </svg>
+      <span class="text-[10px] font-bold uppercase tracking-[0.2em]">Ciasteczka & Prywatność</span>
+    </div>
+    
+    <p class="text-xs text-gray-400 leading-relaxed font-light">
+      Używamy plików cookie, aby optymalizować działanie strony, analizować ruch i personalizować Twoje doświadczenia w <strong>WislaStay</strong>. Korzystając ze strony, zgadzasz się na naszą <a href="/polityka" class="text-white underline hover:text-accent transition-colors">Politykę Prywatności</a>.
+    </p>
 
-	<a href="https://astro.build/blog/astro-5/" id="news" class="box">
-		<svg width="32" height="32" fill="none" xmlns="http://www.w3.org/2000/svg"
-			><path
-				d="M24.667 12c1.333 1.414 2 3.192 2 5.334 0 4.62-4.934 5.7-7.334 12C18.444 28.567 18 27.456 18 26c0-4.642 6.667-7.053 6.667-14Zm-5.334-5.333c1.6 1.65 2.4 3.43 2.4 5.333 0 6.602-8.06 7.59-6.4 17.334C13.111 27.787 12 25.564 12 22.666c0-4.434 7.333-8 7.333-16Zm-6-5.333C15.111 3.555 16 5.556 16 7.333c0 8.333-11.333 10.962-5.333 22-3.488-.774-6-4-6-8 0-8.667 8.666-10 8.666-20Z"
-				fill="#111827"></path></svg
-		>
-		<h2>What's New in Astro 5.0?</h2>
-		<p>
-			From content layers to server islands, click to learn more about the new features and
-			improvements in Astro 5.0
-		</p>
-	</a>
+    <div class="flex gap-4 pt-2">
+      <button 
+        id="accept-cookies" 
+        class="flex-1 bg-white text-primary py-3 text-[10px] font-bold uppercase tracking-widest hover:bg-accent hover:text-white transition-all cursor-pointer"
+        data-analytics-action="cookies_accept"
+      >
+        Akceptuję
+      </button>
+      <button 
+        id="decline-cookies" 
+        class="flex-1 border border-white/20 py-3 text-[10px] font-bold uppercase tracking-widest hover:border-white transition-all cursor-pointer"
+        data-analytics-action="cookies_decline"
+      >
+        Odrzuć
+      </button>
+    </div>
+  </div>
 </div>
 
-<style>
-	#background {
-		position: fixed;
-		top: 0;
-		left: 0;
-		width: 100%;
-		height: 100%;
-		z-index: -1;
-		filter: blur(100px);
-	}
+<script>
+  const banner = document.getElementById('cookie-banner');
+  const acceptBtn = document.getElementById('accept-cookies');
+  const declineBtn = document.getElementById('decline-cookies');
 
-	#container {
-		font-family: Inter, Roboto, 'Helvetica Neue', 'Arial Nova', 'Nimbus Sans', Arial, sans-serif;
-		height: 100%;
-	}
+  const COOKIE_KEY = 'wislastay_cookies_accepted';
 
-	main {
-		height: 100%;
-		display: flex;
-		justify-content: center;
-	}
+  // Функция для логов (как в BookingDrawer)
+  const logCookieAction = (action: string) => {
+    console.log(`[Analytics] Cookies: ${action}`);
+    // window.dataLayer?.push({'event': 'cookie_consent', 'action': action});
+  };
 
-	#hero {
-		display: flex;
-		align-items: start;
-		flex-direction: column;
-		justify-content: center;
-		padding: 16px;
-	}
+  // Проверка, был ли сделан выбор
+  window.addEventListener('load', () => {
+    const status = localStorage.getItem(COOKIE_KEY);
+    if (!status && banner) {
+      setTimeout(() => {
+        banner.classList.remove('translate-y-[150%]');
+      }, 2000); // Показываем через 2 секунды после загрузки
+    }
+  });
 
-	h1 {
-		font-size: 22px;
-		margin-top: 0.25em;
-	}
+  const hideBanner = () => {
+    banner?.classList.add('translate-y-[150%]');
+  };
 
-	#links {
-		display: flex;
-		gap: 16px;
-	}
+  acceptBtn?.addEventListener('click', () => {
+    localStorage.setItem(COOKIE_KEY, 'true');
+    logCookieAction('accepted');
+    hideBanner();
+  });
 
-	#links a {
-		display: flex;
-		align-items: center;
-		padding: 10px 12px;
-		color: #111827;
-		text-decoration: none;
-		transition: color 0.2s;
-	}
+  declineBtn?.addEventListener('click', () => {
+    localStorage.setItem(COOKIE_KEY, 'false');
+    logCookieAction('declined');
+    hideBanner();
+  });
+</script>
+</file>
 
-	#links a:hover {
-		color: rgb(78, 80, 86);
-	}
-
-	#links a svg {
-		height: 1em;
-		margin-left: 8px;
-	}
-
-	#links a.button {
-		color: white;
-		background: linear-gradient(83.21deg, #3245ff 0%, #bc52ee 100%);
-		box-shadow:
-			inset 0 0 0 1px rgba(255, 255, 255, 0.12),
-			inset 0 -2px 0 rgba(0, 0, 0, 0.24);
-		border-radius: 10px;
-	}
-
-	#links a.button:hover {
-		color: rgb(230, 230, 230);
-		box-shadow: none;
-	}
-
-	pre {
-		font-family:
-			ui-monospace, 'Cascadia Code', 'Source Code Pro', Menlo, Consolas, 'DejaVu Sans Mono',
-			monospace;
-		font-weight: normal;
-		background: linear-gradient(14deg, #d83333 0%, #f041ff 100%);
-		-webkit-background-clip: text;
-		-webkit-text-fill-color: transparent;
-		background-clip: text;
-		margin: 0;
-	}
-
-	h2 {
-		margin: 0 0 1em;
-		font-weight: normal;
-		color: #111827;
-		font-size: 20px;
-	}
-
-	p {
-		color: #4b5563;
-		font-size: 16px;
-		line-height: 24px;
-		letter-spacing: -0.006em;
-		margin: 0;
-	}
-
-	code {
-		display: inline-block;
-		background:
-			linear-gradient(66.77deg, #f3cddd 0%, #f5cee7 100%) padding-box,
-			linear-gradient(155deg, #d83333 0%, #f041ff 18%, #f5cee7 45%) border-box;
-		border-radius: 8px;
-		border: 1px solid transparent;
-		padding: 6px 8px;
-	}
-
-	.box {
-		padding: 16px;
-		background: rgba(255, 255, 255, 1);
-		border-radius: 16px;
-		border: 1px solid white;
-	}
-
-	#news {
-		position: absolute;
-		bottom: 16px;
-		right: 16px;
-		max-width: 300px;
-		text-decoration: none;
-		transition: background 0.2s;
-		backdrop-filter: blur(50px);
-	}
-
-	#news:hover {
-		background: rgba(255, 255, 255, 0.55);
-	}
-
-	@media screen and (max-height: 368px) {
-		#news {
-			display: none;
-		}
-	}
-
-	@media screen and (max-width: 768px) {
-		#container {
-			display: flex;
-			flex-direction: column;
-		}
-
-		#hero {
-			display: block;
-			padding-top: 10%;
-		}
-
-		#links {
-			flex-wrap: wrap;
-		}
-
-		#links a.button {
-			padding: 14px 18px;
-		}
-
-		#news {
-			right: 16px;
-			left: 16px;
-			bottom: 2.5rem;
-			max-width: 100%;
-		}
-
-		h1 {
-			line-height: 1.5;
-		}
-	}
-</style>
+<file path="src/data/activities.json">
+{
+  "heading": "Sztuka Celebrowania Chwil",
+  "subheading": "Doświadczenia w WislaStay",
+  "sections": [
+    {
+      "id": "restauracja",
+      "title": "Natura na Talerzu",
+      "category": "Kuchnia Leśna",
+      "description": "Nasza restauracja to hołd dla Beskidów. Michał Zawadzki, nasz Szef Kuchni, tworzy dania w duchu 'Forest-to-Table', używając pstrąga z górskiego potoku, dziczyzny i ziół zbieranych o świcie.",
+      "image": "/images/dining-main.webp",
+      "features": ["Menu degustacyjne", "Lokalne wina", "Widok na rzekę"]
+    },
+    {
+      "id": "wellness",
+      "title": "Wodne Ukojenie",
+      "category": "Wellness & SPA",
+      "description": "Zanurz się в basenie infinity, którego lustro wody zdaje się łączyć z nurtem Wisły. Skorzystaj z sauny fińskiej z widokiem na las i rytuałów opartych na soku z brzozy.",
+      "image": "/images/about-pool.webp",
+      "features": ["Basen Infinity", "Sauna z widokiem", "Naturalne rytuały"]
+    },
+    {
+      "id": "aktywnosci",
+      "title": "W Rytmie Gór",
+      "category": "Przygoda",
+      "description": "Od warsztatów wędkarstwa muchowego w nurcie Wisły, przez jogę o wschodzie słońca, aż po ekskluzywne grzybobranie z mikologiem. Odkryj Beskidy inaczej.",
+      "image": "/images/news-yoga.webp",
+      "features": ["Fly Fishing", "Yoga Retreats", "Leśne kąpiele"]
+    },
+    {
+  "id": "club",
+  "title": "Klub Nocny: Private Gaming",
+  "category": "Rozrywka",
+  "url": "/club",
+  "description": "Kameralny klub gier dostępny wyłącznie dla gości WislaStay. Poker, blackjack i ruletka w atmosferze dyskrecji и luksusu.",
+  "image": "/images/club-interior.webp",
+  "features": ["Tylko dla gości hotelowych", "Profesjonalne stoły", "Bar z selekcją Premium"]
+}
+  ]
+}
 </file>
 
 <file path="src/data/dining.json">
@@ -2191,7 +2088,7 @@ import background from '../assets/background.svg';
 <file path="src/data/navigation.json">
 [
   { "label": "Pokoje", "href": "/pokoje" },
-  { "label": "Restauracja", "href": "/restauracja" },
+  { "label": "Doświadczenia", "href": "/doswiadczenia" },
   { "label": "O nas", "href": "/o-nas" },
   { "label": "Kontakt", "href": "/kontakt" },
   { "label": "Sprawdź Status", "href": "/rezerwacja/status" }
@@ -2486,6 +2383,7 @@ import BookingDrawer from '../components/ui/BookingDrawer.astro';
 // ИСПРАВЛЕННЫЙ ИМПОРТ:
 import SmoothScroll from '../utils/SmoothScroll.astro'; 
 import Footer from '../components/common/Footer.astro';
+import CookieConsent from '../components/ui/CookieConsent.astro';
 
 interface Props {
   title?: string;
@@ -2521,6 +2419,7 @@ const {
 
     <Footer />
     <BookingDrawer />
+    <CookieConsent />
     <SmoothScroll />
   </body>
 </html>
@@ -2761,7 +2660,7 @@ const otherPosts = sortedNews.slice(1); // Остальные
   </section>
 
   <section class="py-24 bg-primary text-white relative overflow-hidden">
-    <div class="absolute inset-0 opacity-10 bg-[url('/images/noise.png')]"></div>
+   
     
     <div class="container-main relative z-10 text-center max-w-2xl mx-auto">
       <h2 class="font-serif text-4xl md:text-5xl mb-6">Bądź częścią naszej historii</h2>
@@ -2794,6 +2693,327 @@ const otherPosts = sortedNews.slice(1); // Остальные
   .delay-100 { animation-delay: 0.1s; }
   .delay-200 { animation-delay: 0.2s; }
 
+  @keyframes fadeInUp {
+    to { opacity: 1; transform: translateY(0); }
+  }
+</style>
+</file>
+
+<file path="src/pages/club.astro">
+---
+import MainLayout from '../layouts/MainLayout.astro';
+
+const features = [
+  { 
+    title: "Pełna Dyskrecja", 
+    desc: "Wejście do klubu jest monitorowane i dostępne wyłącznie dla gości posiadających aktywną kartę hotelową WislaStay." 
+  },
+  { 
+    title: "Klasyka i Emocje", 
+    desc: "Profesjonalne stoły do Poker Texas Hold'em, Blackjacka oraz Amerykańskiej Ruletki obsługiwane przez doświadczonych krupierów." 
+  },
+  { 
+    title: "Strefa Automatów", 
+    desc: "Najnowocześniejsze maszyny slotowe (slot machines) oferujące dynamiczną rozgrywkę i wysokie standardy bezpieczeństwa." 
+  }
+];
+
+const stats = [
+  { label: "Stoły do gier", value: "5" },
+  { label: "Automaty (Slots)", value: "12" },
+  { label: "Wstęp od lat", value: "18+" },
+  { label: "Dostęp", value: "24/7" }
+];
+
+// Dane dla nowych sekcji szczegółowych
+const gameDetails = [
+  {
+    title: "Królowa Kasyn: Ruletka",
+    desc: "Doświadcz magii najbardziej klasycznej gry na świecie. Nasza Amerykańska Ruletka to połączenie elegancji drewna wiśniowego z precyzją wykonania. Każdy obrót koła to chwila zawieszenia, w której liczy się tylko szczęście i intuicja.",
+    image: "/images/club-roulette.webp",
+    list: ["Zakłady wewnętrzne i zewnętrzne", "Profesjonalna obsługa krupierów", "Limitowane stoły dla pełnej dyskrecji"]
+  },
+  {
+    title: "Strategia i Styl: Poker & Blackjack",
+    desc: "Dla tych, którzy wolą pojedynek z kartami. Oferujemy stoły do Poker Texas Hold'em oraz Blackjacka. To tutaj chłodna kalkulacja spotyka się z dreszczem emocji, a wszystko to w atmosferze luksusowego baru z najlepszą selekcją whisky.",
+    image: "/images/club-cards.webp",
+    list: ["Stoły z zielonym filcem najwyższej klasy", "Prywatne turnieje dla grup", "Selekcja cygar i trunków przy stole"]
+  },
+  {
+    title: "Świat Cyfrowej Rozrywki: Slots",
+    desc: "Nasza strefa automatów to miejsce dla fanów nowoczesnych rozwiązań. Najnowocześniejsze <strong>maszyny slotowe (slot machines)</strong> oferują setki wariantów gry, od klasycznych owocówek po zaawansowane wideo-sloty z darmowymi spinami.",
+    image: "/images/club-slots.webp",
+    list: ["Grafika 4K i dźwięk przestrzenny", "Bonusy powitalne: free spins", "Pełna anonimowość rozgrywki"]
+  }
+];
+---
+
+<MainLayout title="Prywatny Klub Rozrywki | WislaStay">
+  
+  <section class="relative h-screen flex items-center justify-center overflow-hidden bg-primary">
+    <div class="absolute inset-0 z-0">
+      <img src="/images/club-interior.webp" alt="Ekskluzywny salon gier w Wiśle" class="w-full h-full object-cover opacity-40 scale-105 animate-slow-zoom" />
+      <div class="absolute inset-0 bg-gradient-to-b from-primary/80 via-transparent to-primary"></div>
+    </div>
+
+    <div class="relative z-10 container-main text-center">
+      <div class="inline-block border border-accent/50 px-4 py-1 mb-8 animate-fade-in">
+        <span class="text-accent font-bold uppercase tracking-[0.4em] text-[10px]">Tylko dla gości hotelowych</span>
+      </div>
+      <h1 class="font-serif text-6xl md:text-9xl text-white mb-10 animate-fade-in delay-100">
+        Klub <span class="italic text-gray-400">Nocny</span>
+      </h1>
+      <p class="text-xl md:text-2xl text-white/70 max-w-3xl mx-auto font-light font-serif mb-12 animate-fade-in delay-200 leading-relaxed">
+        Prywatna przestrzeń, w której luksus spotyka się z adrenaliną. Miejsce stworzone dla pasjonatów klasycznych gier stołowych oraz nowoczesnych automatów.
+      </p>
+      <div class="flex flex-col md:flex-row gap-6 justify-center items-center animate-fade-in delay-300">
+        <button 
+          onclick="window.openBookingDrawer('private-club')" 
+          class="bg-white text-primary px-12 py-5 font-bold uppercase tracking-widest text-xs hover:bg-accent hover:text-white transition-all shadow-2xl cursor-pointer"
+          data-analytics-action="club_reservation_click"
+        >
+          Zarezerwuj stolik VIP
+        </button>
+        <span class="text-white/40 text-[10px] uppercase tracking-widest font-bold">Wymagana pełnoletność</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="py-24 bg-primary text-white">
+    <div class="container-main">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
+        <div class="space-y-8">
+          <h2 class="font-serif text-4xl md:text-5xl leading-tight text-accent italic">
+            Nowoczesne Maszyny Slotowe i Klasyczny Hazard
+          </h2>
+          <p class="text-gray-400 font-light leading-relaxed text-lg">
+            W sercu WislaStay stworzyliśmy azyl dla graczy. Nasz klub oferuje unikalne połączenie tradycji z nowoczesnością. Na miłośników technologii czekają zaawansowane <strong>maszyny slotowe (slot machines)</strong>, które gwarantują płynną grafikę i uczciwe zasady gry.
+          </p>
+          <p class="text-gray-400 font-light leading-relaxed text-lg">
+            Dla stałych bywalców przygotowaliśmy program lojalnościowy: powitalne <strong>free spins (darmowe spiny)</strong> dostępne przy pierwszej wizycie w klubie, które pozwalają poczuć rytm naszych automatów bez pośpiechu.
+          </p>
+        </div>
+        <div class="grid grid-cols-2 gap-4">
+          {stats.map(s => (
+            <div class="bg-white/5 border border-white/10 p-8 text-center group hover:border-accent transition-colors">
+              <span class="block text-4xl font-serif text-accent mb-2 group-hover:scale-110 transition-transform">{s.value}</span>
+              <span class="block text-[10px] uppercase tracking-widest text-gray-500 font-bold">{s.label}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="py-12 bg-primary overflow-hidden">
+    {gameDetails.map((game, index) => (
+      <div class={`py-20 md:py-32 border-b border-white/5 last:border-0`}>
+        <div class="container-main">
+          <div class={`grid grid-cols-1 lg:grid-cols-12 gap-16 items-center`}>
+            
+            <div class={`lg:col-span-5 ${index % 2 === 1 ? 'lg:order-2' : ''}`}>
+              <h2 class="font-serif text-4xl md:text-5xl text-white mb-8 leading-tight">
+                {game.title.split(': ')[0]}<br/>
+                <span class="text-accent italic font-light">{game.title.split(': ')[1]}</span>
+              </h2>
+              <p class="text-gray-400 font-light text-lg leading-relaxed mb-10" set:html={game.desc}></p>
+              
+              <ul class="space-y-4 mb-12">
+                {game.list.map(item => (
+                  <li class="flex items-center gap-4 text-[10px] font-bold uppercase tracking-widest text-white/60">
+                    <span class="w-1 h-1 bg-accent"></span>
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <div class={`lg:col-span-7 ${index % 2 === 1 ? 'lg:order-1' : ''}`}>
+              <div class="relative group overflow-hidden shadow-2xl">
+                <img src={game.image} alt={game.title} class="w-full h-full object-cover transition-transform duration-[2000ms] group-hover:scale-110" />
+                <div class="absolute inset-0 bg-primary/20 group-hover:bg-transparent transition-colors duration-700"></div>
+                <div class="absolute inset-8 border border-white/10 pointer-events-none"></div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    ))}
+  </section>
+
+  <section class="py-24 bg-primary text-white border-t border-white/5">
+    <div class="container-main">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-16">
+        {features.map(f => (
+          <div class="text-center space-y-4">
+            <div class="w-12 h-[1px] bg-accent mx-auto mb-6"></div>
+            <h3 class="font-serif text-3xl text-white italic">{f.title}</h3>
+            <p class="text-gray-400 font-light leading-relaxed">{f.desc}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="py-12 bg-black text-white/40 border-t border-white/10">
+    <div class="container-main text-center">
+      <div class="max-w-4xl mx-auto space-y-6">
+        <div class="flex justify-center gap-4 mb-4 opacity-50">
+          <span class="border border-white/20 px-3 py-1 text-xs rounded-full">18+</span>
+          <span class="border border-white/20 px-3 py-1 text-xs rounded-full">Graj Odpowiedzialnie</span>
+        </div>
+        <p class="text-[10px] uppercase tracking-[0.1em] leading-relaxed">
+          Klub Gier WislaStay jest przeznaczony wyłącznie dla osób pełnoletnich. Hazard wiąże się z ryzykiem uzależnienia. 
+          Wstęp jest ograniczony wyłącznie dla zameldowanych gości hotelu. Zapewniamy pełne wsparcie w zakresie zasad odpowiedzialnej gry.
+          Pamiętaj, że gra na automatach typu <strong>spins slots</strong> ma charakter rozrywkowy.
+        </p>
+        <p class="text-[10px] text-accent/50 italic">
+          Kontakt dla osób potrzebujących pomocy: <a href="https://www.anonimowihazardzisci.org" class="underline hover:text-accent transition-colors">www.anonimowihazardzisci.org</a>
+        </p>
+      </div>
+    </div>
+  </section>
+
+</MainLayout>
+
+<style>
+  .animate-slow-zoom {
+    animation: slowZoom 30s infinite alternate ease-in-out;
+  }
+  @keyframes slowZoom {
+    from { transform: scale(1); }
+    to { transform: scale(1.15); }
+  }
+  .animate-fade-in {
+    opacity: 0;
+    transform: translateY(30px);
+    animation: fadeInUp 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+  .delay-100 { animation-delay: 0.2s; }
+  .delay-200 { animation-delay: 0.4s; }
+  @keyframes fadeInUp {
+    to { opacity: 1; transform: translateY(0); }
+  }
+</style>
+</file>
+
+<file path="src/pages/doswiadczenia.astro">
+---
+import MainLayout from '../layouts/MainLayout.astro';
+import activities from '../data/activities.json';
+
+const arrowRight = `<svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>`;
+---
+
+<MainLayout title="Doświadczenia i Restauracja | WislaStay">
+  
+  <header class="relative h-[80vh] min-h-[600px] flex items-end pb-24 overflow-hidden bg-primary">
+    <div class="absolute inset-0 z-0">
+      <img src="/images/exp-hero.webp" alt="WislaStay Experience" class="w-full h-full object-cover opacity-60 animate-slow-zoom" />
+      <div class="absolute inset-0 bg-gradient-to-t from-primary via-transparent to-transparent"></div>
+    </div>
+    
+    <div class="relative z-10 container-main">
+      <span class="text-accent font-bold uppercase tracking-[0.3em] text-xs block mb-6 animate-fade-in">Beskidzki Styl Życia</span>
+      <h1 class="font-serif text-6xl md:text-8xl lg:text-9xl text-white leading-[0.9] mb-8 animate-fade-in delay-100">
+        Więcej niż <br/> <span class="italic font-light text-surface/70">odpoczynek</span>.
+      </h1>
+      <p class="text-xl md:text-2xl text-white/80 max-w-2xl font-light font-serif animate-fade-in delay-200">
+        Odkryj świat WislaStay, gdzie każda chwila jest zaprojektowana, by przywrócić Ci harmonię.
+      </p>
+    </div>
+  </header>
+
+  <nav class="sticky top-20 z-40 bg-white/80 backdrop-blur-md border-b border-gray-100 hidden md:block">
+    <div class="container-main flex justify-center gap-12 py-6">
+      {activities.sections.map(section => (
+        <a href={`#${section.id}`} class="text-[10px] font-bold uppercase tracking-widest text-primary hover:text-accent transition-colors">
+          {section.title}
+        </a>
+      ))}
+    </div>
+  </nav>
+
+  <section class="py-12 bg-white">
+    {activities.sections.map((section, index) => (
+      <div id={section.id} class={`py-24 md:py-32 border-b border-gray-50 last:border-0 ${index % 2 === 1 ? 'bg-surface/30' : ''}`}>
+        <div class="container-main">
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
+            
+            <div class={`lg:col-span-5 ${index % 2 === 1 ? 'lg:order-2' : 'lg:order-1'}`}>
+              <span class="text-accent text-[10px] font-bold uppercase tracking-[0.3em] block mb-4">
+                {section.category}
+              </span>
+              <h2 class="font-serif text-5xl md:text-6xl text-primary mb-8 leading-tight">
+                {section.title}
+              </h2>
+              <p class="text-gray-500 font-light text-lg leading-relaxed mb-10">
+                {section.description}
+              </p>
+              
+              <ul class="space-y-4 mb-12">
+                {section.features.map(feature => (
+                  <li class="flex items-center gap-4 text-xs font-bold uppercase tracking-widest text-primary/60">
+                    <span class="w-1.5 h-1.5 bg-accent rounded-full"></span>
+                    {feature}
+                  </li>
+                ))}
+              </ul>
+
+              {/* ЛОГИКА КНОПКИ: Если есть URL (как у Клуба), ведем на страницу. Если нет — открываем шторку */}
+              {section.url ? (
+                <a 
+                  href={section.url} 
+                  class="inline-flex items-center gap-4 bg-primary text-white px-10 py-5 text-[10px] font-bold uppercase tracking-[0.2em] hover:bg-accent transition-all shadow-xl group"
+                  data-analytics-action="view_activity_details"
+                  data-analytics-label={section.id}
+                >
+                  Zobacz szczegóły
+                  <span class="group-hover:translate-x-1 transition-transform" set:html={arrowRight} />
+                </a>
+              ) : (
+                <button 
+                  onclick={`window.openBookingDrawer('${section.id}')`} 
+                  class="inline-flex items-center gap-4 bg-primary text-white px-10 py-5 text-[10px] font-bold uppercase tracking-[0.2em] hover:bg-accent transition-all cursor-pointer shadow-xl group"
+                  data-analytics-action="open_booking_drawer_exp"
+                  data-analytics-label={section.id}
+                >
+                  Rezerwuj Doświadczenie 
+                  <span class="group-hover:translate-x-1 transition-transform" set:html={arrowRight} />
+                </button>
+              )}
+            </div>
+
+            <div class={`lg:col-span-7 relative ${index % 2 === 1 ? 'lg:order-1' : 'lg:order-2'}`}>
+              <div class="relative overflow-hidden aspect-[4/3] group shadow-2xl">
+                <img src={section.image} alt={section.title} class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105" />
+                <div class="absolute inset-0 bg-primary/5 group-hover:bg-transparent transition-colors duration-500"></div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    ))}
+  </section>
+</MainLayout>
+
+<style>
+  .animate-slow-zoom {
+    animation: slowZoom 20s infinite alternate ease-in-out;
+  }
+  @keyframes slowZoom {
+    from { transform: scale(1); }
+    to { transform: scale(1.1); }
+  }
+  .animate-fade-in {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+  .delay-100 { animation-delay: 0.1s; }
+  .delay-200 { animation-delay: 0.2s; }
   @keyframes fadeInUp {
     to { opacity: 1; transform: translateY(0); }
   }
@@ -3044,7 +3264,7 @@ import MainLayout from '../layouts/MainLayout.astro';
   </section>
 
   <section class="py-24 bg-surface relative overflow-hidden">
-    <div class="absolute inset-0 opacity-[0.03] bg-[url('/images/noise.png')]"></div>
+    
     
     <div class="container-main relative z-10">
         <div class="max-w-3xl mx-auto text-center mb-16">
@@ -3219,93 +3439,199 @@ const icons = {
   
 
 </MainLayout>
+</file>
 
-<script>
-  import { supabase } from '../lib/supabase';
+<file path="src/pages/polityka.astro">
+---
+import MainLayout from '../layouts/MainLayout.astro';
 
-  // Выбираем элементы
-  const modal = document.getElementById('booking-modal');
-  const backdrop = document.getElementById('modal-backdrop');
-  const closeBtn = document.getElementById('modal-close');
-  const form = document.getElementById('booking-form');
-  const btns = document.querySelectorAll('.btn-book');
+const lastUpdate = "23 grudnia 2025";
+---
+
+<MainLayout title="Polityka Prywatności | WislaStay">
   
-  const roomNameEl = document.getElementById('modal-room-name');
-  const roomIdEl = document.getElementById('modal-room-id');
-  const phoneInput = document.getElementById('phone-input');
-  const dateInput = document.getElementById('date-input');
+  <header class="pt-40 pb-20 bg-surface border-b border-gray-200">
+    <div class="container-main">
+      <span class="text-accent text-xs font-bold uppercase tracking-[0.25em] block mb-6 animate-fade-in">
+        Transparentność i Bezpieczeństwo
+      </span>
+      <h1 class="font-serif text-5xl md:text-7xl text-primary mb-8 animate-fade-in delay-100">
+        Polityka <span class="italic text-gray-400">Prywatności</span>
+      </h1>
+      <p class="text-gray-500 font-light max-w-2xl animate-fade-in delay-200">
+        Ostatnia aktualizacja: {lastUpdate}. <br/>
+        Twoja prywatność jest dla nas najwyższym priorytetem. Poniżej wyjaśniamy, jak chronimy Twoje dane w ekosystemie WislaStay.
+      </p>
+    </div>
+  </header>
 
-  // Проверка на наличие элементов перед запуском логики
-  if (modal && backdrop && closeBtn && form) {
-
-    // 1. Открытие модалки
-    btns.forEach(btn => {
-      btn.addEventListener('click', () => {
-        const roomName = btn.getAttribute('data-room-name');
-        const roomId = btn.getAttribute('data-room-id');
+  <section class="py-24 bg-white">
+    <div class="container-main max-w-4xl mx-auto">
+      <div class="prose prose-lg max-w-none prose-p:text-gray-600 prose-headings:font-serif prose-headings:text-primary prose-strong:text-primary">
         
-        if(roomNameEl) roomNameEl.textContent = roomName;
-        // @ts-ignore
-        if(roomIdEl) roomIdEl.value = roomId;
+        <h2>1. Administrator Danych</h2>
+        <p>
+          Administratorem Twoich danych osobowych jest <strong>WislaStay</strong> z siedzibą przy ul. Górskiej 15, 43-460 Wisła, Polska. W sprawach związanych z ochroną danych możesz skontaktować się z nami pod adresem: 
+          <a href="mailto:rezerwacje@wislastay.org" class="text-accent underline">rezerwacje@wislastay.org</a>.
+        </p>
 
-        modal.classList.remove('hidden');
-        setTimeout(() => modal.classList.remove('opacity-0'), 10);
-      });
-    });
+        <h2>2. Cel i Zakres Zbierania Danych</h2>
+        <p>Przetwarzamy dane osobowe w następujących celach:</p>
+        <ul>
+          <li><strong>Realizacja Rezerwacji:</strong> Przetwarzamy numer telefonu, datę przyjazdu oraz wybrany apartament w celu sfinalizowania pobytu za pośrednictwem platformy Supabase.</li>
+          <li><strong>Klub Nocny:</strong> Weryfikacja pełnoletności i dostęp do strefy gier dla gości hotelowych.</li>
+          <li><strong>Newsletter:</strong> Wysyłanie ofert specjalnych po wyrażeniu dobrowolnej zgody.</li>
+          <li><strong>Kontakt:</strong> Odpowiedzi na zapytania przesłane przez formularz kontaktowy.</li>
+        </ul>
 
-    // 2. Закрытие модалки
-    function closeModal() {
-      modal.classList.add('opacity-0');
-      setTimeout(() => modal.classList.add('hidden'), 300);
-    }
-    
-    backdrop.addEventListener('click', closeModal);
-    closeBtn.addEventListener('click', closeModal);
+        <h2>3. Bezpieczeństwo i Przechowywanie</h2>
+        <p>
+          Twoje dane są przechowywane w bezpiecznej chmurze <strong>Supabase</strong>, wykorzystującej zaawansowane szyfrowanie AES-256. Dostęp do danych mają wyłącznie upoważnieni pracownicy WislaStay oraz systemy techniczne niezbędne do obsługi rezerwacji.
+        </p>
 
-    // 3. Отправка в Supabase
-    form.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      
-      const submitBtn = form.querySelector('button[type="submit"]');
-      const originalText = submitBtn.textContent;
-      submitBtn.textContent = "Przetwarzanie...";
-      // @ts-ignore
-      submitBtn.disabled = true;
+        <h2>4. Pliki Cookies i Analityka</h2>
+        <p>
+          Używamy technologii śledzenia zdarzeń (Analytics Events) w celu optymalizacji doświadczeń użytkownika. Monitorujemy interakcje z formularzami rezerwacji, aby zapewnić płynność procesu rezerwacyjnego. Dane te są zanonimizowane i służą celom statystycznym.
+        </p>
 
-      // @ts-ignore
-      const phone = phoneInput.value;
-      // @ts-ignore
-      const roomId = roomIdEl.value;
-      // @ts-ignore
-      const checkInDate = dateInput.value;
+        <h2>5. Prawa Użytkownika</h2>
+        <p>Zgodnie z rozporządzeniem RODO, przysługuje Ci prawo do:</p>
+        <ul>
+          <li>Dostępu do swoich danych oraz otrzymania ich kopii.</li>
+          <li>Sprostowania (poprawiania) swoich danych.</li>
+          <li>Usunięcia danych („prawo do bycia zapomnianym”).</li>
+          <li>Wniesienia sprzeciwu wobec przetwarzania danych w celach marketingowych.</li>
+        </ul>
 
-      console.log("Sending to Supabase:", { phone, roomId, checkInDate });
+        <div class="bg-surface p-8 border-l-4 border-accent mt-16">
+          <h3 class="mt-0 font-serif">Informacja o Hazardzie</h3>
+          <p class="text-sm italic mb-0">
+            W związku z obecnością strefy gier w obiekcie, informujemy, że dane dotyczące wstępu do Klubu Nocnego mogą być przetwarzane w celu zapewnienia zgodności z polityką Responsible Gaming oraz Google Compliance. Wstęp do strefy gier jest dozwolony wyłącznie dla osób powyżej 18 roku życia.
+          </p>
+        </div>
 
-      // Вставка данных
-      const { data, error } = await supabase
-        .from('bookings')
-        .insert([
-          { phone: phone, room_id: roomId, check_in_date: checkInDate }
-        ])
-        .select();
+        <h2 class="mt-16">6. Kontakt</h2>
+        <p>
+          Jeśli masz pytania dotyczące naszej Polityki Prywatności, jesteśmy do Twojej dyspozycji:
+        </p>
+        <div class="not-prose flex flex-col gap-2 font-serif text-xl text-primary">
+          <span>WislaStay</span>
+          <span>ul. Górska 15, Wisła</span>
+          <a href="tel:+48514318724" class="hover:text-accent transition-colors">+48 514 318 724</a>
+        </div>
 
-      if (error) {
-        console.error("Supabase Error:", error);
-        alert('Błąd: ' + error.message);
-        submitBtn.textContent = originalText;
-        // @ts-ignore
-        submitBtn.disabled = false;
-      } else {
-        console.log("Success:", data);
-        localStorage.setItem('current_user_phone', phone);
-        window.location.href = '/rezerwacja/status';
-      }
-    });
+      </div>
+    </div>
+  </section>
 
-  } else {
-    console.error("Error: Modal elements not found in DOM");
+</MainLayout>
+
+<style>
+  .animate-fade-in {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
   }
-</script>
+  .delay-100 { animation-delay: 0.1s; }
+  .delay-200 { animation-delay: 0.2s; }
+
+  @keyframes fadeInUp {
+    to { opacity: 1; transform: translateY(0); }
+  }
+</style>
+</file>
+
+<file path="src/pages/regulamin.astro">
+---
+import MainLayout from '../layouts/MainLayout.astro';
+
+const lastUpdate = "23 grudnia 2025";
+---
+
+<MainLayout title="Regulamin Obiektu | WislaStay">
+  
+  <header class="pt-40 pb-20 bg-surface border-b border-gray-200">
+    <div class="container-main">
+      <span class="text-accent text-xs font-bold uppercase tracking-[0.25em] block mb-6 animate-fade-in">
+        Standardy i Zasady
+      </span>
+      <h1 class="font-serif text-5xl md:text-7xl text-primary mb-8 animate-fade-in delay-100">
+        Regulamin <span class="italic text-gray-400">WislaStay</span>
+      </h1>
+      <p class="text-gray-500 font-light max-w-2xl animate-fade-in delay-200">
+        Ostatnia aktualizacja: {lastUpdate}. <br/>
+        Prosimy o zapoznanie się z poniższymi zasadami, które zostały stworzone, aby zapewnić Państwu oraz innym gościom najwyższy poziom komfortu i bezpieczeństwa.
+      </p>
+    </div>
+  </header>
+
+  <section class="py-24 bg-white">
+    <div class="container-main max-w-4xl mx-auto">
+      <div class="prose prose-lg max-w-none prose-p:text-gray-600 prose-headings:font-serif prose-headings:text-primary prose-strong:text-primary">
+        
+        <h2>1. Postanowienia Ogólne</h2>
+        <p>
+          Regulamin określa zasady świadczenia usług, odpowiedzialności oraz przebywania na terenie obiektu <strong>WislaStay</strong> przy ul. Górskiej 15 w Wiśle. Dokonanie rezerwacji jest równoznaczne z akceptacją niniejszego regulaminu.
+        </p>
+
+        <h2>2. Doba Hotelowa i Rezerwacja</h2>
+        <ul>
+          <li>Doba hotelowa rozpoczyna się o godzinie <strong>15:00</strong> w dniu przyjazdu, a kończy o godzinie <strong>11:00</strong> w dniu wyjazdu.</li>
+          <li>Podstawą do zameldowania jest okazanie dokumentu tożsamości oraz podanie numeru telefonu użytego podczas rezerwacji w systemie.</li>
+          <li>Obiekt zastrzega sobie prawo do pobrania preautoryzacji karty płatniczej lub kaucji gotówkowej przy zameldowaniu.</li>
+        </ul>
+
+        <h2>3. Prywatny Klub Nocny i Strefa Gier</h2>
+        <div class="bg-surface p-8 border-l-4 border-accent my-10">
+          <h3 class="mt-0 font-serif">Zasady Korzystania z Klubu</h3>
+          <p class="text-sm leading-relaxed mb-4">
+            Strefa gier (Klub Nocny) jest dostępna wyłącznie dla zameldowanych gości hotelu WislaStay, którzy ukończyli <strong>18 rok życia</strong>.
+          </p>
+          <ul class="text-sm italic">
+            <li>Wstęp do klubu odbywa się na podstawie aktywnej karty pokojowej.</li>
+            <li>Na terenie klubu obowiązuje zakaz fotografowania oraz filmowania w celu zachowania pełnej dyskrecji gości.</li>
+            <li>Obiekt promuje zasady <strong>Responsible Gaming</strong>. Pracownicy mają prawo odmówić wstępu lub obsługi osobom wykazującym oznaki nadmiernej konsumpcji alkoholu lub zachowań agresywnych.</li>
+          </ul>
+        </div>
+
+        <h2>4. Cisza Nocna i Odpowiedzialność</h2>
+        <p>
+          W obiekcie obowiązuje cisza nocna od godziny <strong>22:00 do 06:00</strong> rano. Wyjątkiem są imprezy zamknięte organizowane w wyznaczonych strefach (Restauracja, Klub Nocny), o których goście są informowani przy zameldowaniu.
+        </p>
+        <p>
+          Gość ponosi pełną odpowiedzialność materialną za wszelkiego rodzaju uszkodzenia lub zniszczenia przedmiotów wyposażenia i urządzeń technicznych powstałe z jego winy.
+        </p>
+
+        <h2>5. Bezpieczeństwo</h2>
+        <p>
+          Ze względów bezpieczeństwa przeciwpożarowego, w pokojach oraz na terenie całego obiektu (z wyjątkiem wyznaczonych tarasów) obowiązuje <strong>całkowity zakaz palenia</strong> wyrobów tytoniowych oraz e-papierosów.
+        </p>
+
+        <h2 class="mt-16">6. Reklamacje i Kontakt</h2>
+        <p>
+          Wszelkie uwagi dotyczące standardu świadczonych usług prosimy zgłaszać niezwłocznie do recepcji. Jesteśmy do Państwa dyspozycji pod numerem: 
+          <a href="tel:+48514318724" class="text-accent no-underline font-bold">+48 514 318 724</a>.
+        </p>
+
+      </div>
+    </div>
+  </section>
+
+</MainLayout>
+
+<style>
+  .animate-fade-in {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+  .delay-100 { animation-delay: 0.1s; }
+  .delay-200 { animation-delay: 0.2s; }
+
+  @keyframes fadeInUp {
+    to { opacity: 1; transform: translateY(0); }
+  }
+</style>
 </file>
 
 <file path="src/pages/rezerwacja/status.astro">
@@ -3454,35 +3780,7 @@ import MainLayout from '../../layouts/MainLayout.astro';
 @import "tailwindcss";
 @plugin "@tailwindcss/typography";
 
-/* --- 1. Шрифты (Локальные) --- */
-@font-face {
-  font-family: 'Playfair Display';
-  src: url('/fonts/playfair-display-v30-latin-ext_latin-regular.woff2') format('woff2');
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
-@font-face {
-  font-family: 'Playfair Display';
-  src: url('/fonts/playfair-display-v30-latin-ext_latin-italic.woff2') format('woff2');
-  font-weight: 400;
-  font-style: italic;
-  font-display: swap;
-}
-@font-face {
-  font-family: 'Lato';
-  src: url('/fonts/lato-v24-latin-ext_latin-regular.woff2') format('woff2');
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
-@font-face {
-  font-family: 'Lato';
-  src: url('/fonts/lato-v24-latin-ext_latin-300.woff2') format('woff2');
-  font-weight: 300;
-  font-style: normal;
-  font-display: swap;
-}
+
 
 /* --- 2. Тема (Tailwind v4 Config) --- */
 @theme {
@@ -3608,6 +3906,31 @@ import MainLayout from '../../layouts/MainLayout.astro';
   "include": [".astro/types.d.ts", "**/*"],
   "exclude": ["dist"]
 }
+</file>
+
+<file path=".gitignore">
+# build output
+dist/
+
+# generated types
+.astro/
+
+# dependencies
+node_modules/
+
+# logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+
+
+# macOS-specific files
+.DS_Store
+
+# jetbrains setting folder
+.idea/
 </file>
 
 </files>

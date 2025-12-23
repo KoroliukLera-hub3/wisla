@@ -18,11 +18,14 @@ const {
   
   <div class="absolute inset-0 z-0">
     <img
-      src={imagePath}
-      alt="Grand Hotel Wisla"
-      class="w-full h-full  object-cover"
-      fetchpriority="high"
-    />
+  src={imagePath}
+  alt="Grand Hotel Wisla"
+  class="w-full h-full object-cover"
+  width="1920"
+  height="1080"
+  loading="eager"
+  fetchpriority="high"
+/>
     <div class="absolute inset-0 bg-gradient-to-r from-black/50 via-black/20 to-black/50"></div>
   </div>
 
@@ -45,9 +48,9 @@ const {
     </div>
   </div>
 
-  <div class="absolute bottom-0 left-0 right-0 z-30 translate-y-[40%] px-4 animate-fade-in delay-300">
-    <BookingWidget />
-  </div>
+  <div class="absolute bottom-0 left-0 right-0 z-30 translate-y-[40%] px-4 animate-fade-in delay-300 min-h-[140px] md:min-h-[120px]">
+  <BookingWidget />
+</div>
 
 </section>
 

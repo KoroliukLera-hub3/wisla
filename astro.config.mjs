@@ -1,26 +1,27 @@
 // @ts-check
 import { defineConfig } from "astro/config";
 import tailwindcss from "@tailwindcss/vite";
+import sitemap from "@astrojs/sitemap"; // Импорт
 
-// https://astro.build/config
 export default defineConfig({
-  // Опции сборки
+  site: 'https://wislastay.org', // ЗАМЕНИ на свой реальный домен
+  
+  integrations: [sitemap()], // Добавление интеграции
+
   build: {
-    format: 'file', // Оптимизирует структуру файлов
-    inlineStylesheets: 'always', // Помогает уменьшить количество лишних запросов
+    format: 'file',
+    inlineStylesheets: 'always',
   },
   
-  // Опции компрессии HTML
-  compressHTML: true, // Это ГЛАВНЫЙ ПАРАМЕТР: он удаляет пробелы и HTML-комментарии при билде
+  compressHTML: true,
   
   vite: {
     plugins: [tailwindcss()],
     build: {
-      // Удаление комментариев из JS и CSS файлов
       minify: 'terser',
       terserOptions: {
         format: {
-          comments: false, // Полностью удаляет комментарии из скомпилированного JS
+          comments: false,
         },
       },
     },

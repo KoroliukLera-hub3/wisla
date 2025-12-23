@@ -11,7 +11,6 @@ import '@fontsource/lato/700.css';
 
 import Header from '../components/common/Header.astro';
 import BookingDrawer from '../components/ui/BookingDrawer.astro';
-// ИСПРАВЛЕННЫЙ ИМПОРТ:
 import SmoothScroll from '../utils/SmoothScroll.astro'; 
 import Footer from '../components/common/Footer.astro';
 import CookieConsent from '../components/ui/CookieConsent.astro';
@@ -19,11 +18,15 @@ import CookieConsent from '../components/ui/CookieConsent.astro';
 interface Props {
   title?: string;
   description?: string;
+  image?: string;
+  canonicalURL?: string;
 }
 
 const { 
   title = siteData.meta.title, 
-  description = siteData.meta.description 
+  description = siteData.meta.description,
+  image = "/images/hero-main.webp", // Дефолтное изображение для соцсетей
+  canonicalURL = new URL(Astro.url.pathname, Astro.site || 'https://wislastay.org').href
 } = Astro.props;
 ---
 
@@ -31,26 +34,66 @@ const {
 <html lang="pl" class="scroll-smooth">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="generator" content={Astro.generator} />
     
     <title>{title}</title>
     <meta name="description" content={description} />
-    
-    
+    <link rel="canonical" href={canonicalURL} />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={new URL(image, Astro.url)} />
+
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content={canonicalURL} />
+    <meta property="twitter:title" content={title} />
+    <meta property="twitter:description" content={description} />
+    <meta property="twitter:image" content={new URL(image, Astro.url)} />
+
+    <meta name="theme-color" content="#0A0A0A" />
+
+    <link 
+      rel="preload" 
+      as="image" 
+      href="/images/hero-main.webp" 
+      fetchpriority="high" 
+    />
   </head>
-  <body class="flex flex-col min-h-screen">
+  
+  <body class="flex flex-col min-h-screen bg-surface text-primary antialiased selection:bg-accent selection:text-white">
  
     <Header />
 
-    <main class="flex-grow">
+    <main id="main-content" class="flex-grow">
       <slot />
     </main>
 
     <Footer />
+    
     <BookingDrawer />
     <CookieConsent />
     <SmoothScroll />
+
+    <style is:global>
+      /* Устранение скачков при загрузке шрифтов */
+      :root {
+        --font-serif: "Playfair Display", serif;
+        --font-sans: "Lato", sans-serif;
+      }
+
+      /* Плавный переход для всех ссылок */
+      a {
+        @apply transition-colors duration-300;
+      }
+
+      /* Скрытие полосы прокрутки, если используется Lenis */
+      .lenis.lenis-smooth {
+        scroll-behavior: auto !important;
+      }
+    </style>
   </body>
 </html>

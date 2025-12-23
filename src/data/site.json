@@ -1,10 +1,11 @@
 {
   "name": "WislaStay",
-  "domain": "WislaStay.org",
-  "language": "pl",
+  "domain": "wislastay.org",
   "meta": {
-    "title": "WislaStay - Luksusowy Wypoczynek w Wiśle",
-    "description": "Odkryj luksusowy hotel butikowy w sercu Wisły. Ekskluzywne pokoje, wykwintna kuchnia i niezapomniane widoki."
+    "title": "WislaStay — Luksusowe Apartamenty i Hotel Butikowy w Wiśle",
+    "description": "Odkryj WislaStay: ekskluzywny azyl w sercu Beskidów. Luksusowe apartamenty z widokiem na Wisłę, autorska kuchnia i prywatny klub nocny. Zarezerwuj swój odpoczynek.",
+    "keywords": "hotel wisła, luksusowe apartamenty wisła, hotel butikowy beskiady, noclegi wisła, restauracja wisła, wellness spa wisła, prywatny klub poker wisła",
+    "ogImage": "/images/og-main.webp"
   },
   "contact": {
     "address": "ul. Górska 15, 43-460 Wisła, Polska",

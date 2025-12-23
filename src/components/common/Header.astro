@@ -6,116 +6,111 @@ import siteData from '../../data/site.json';
 const icons = {
   sun: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="currentColor"><path d="M120,40V16a8,8,0,0,1,16,0V40a8,8,0,0,1-16,0Zm72,88a64,64,0,1,1-64-64A64.07,64.07,0,0,1,192,128Zm-16,0a48,48,0,1,0-48,48A48.05,48.05,0,0,0,176,128ZM58.34,69.66A8,8,0,0,0,69.66,58.34l-16-16A8,8,0,0,0,42.34,53.66Zm0,116.68l-16,16a8,8,0,0,0,11.32,11.32l16-16a8,8,0,0,0-11.32-11.32ZM192,72a8,8,0,0,0,5.66-2.34l16-16a8,8,0,0,0-11.32-11.32l-16,16A8,8,0,0,0,192,72Zm5.66,114.34a8,8,0,0,0-11.32,11.32l16,16a8,8,0,0,0,11.32-11.32ZM40,120H16a8,8,0,0,0,0,16H40a8,8,0,0,0,0-16Zm200,0H216a8,8,0,0,0,0,16h24a8,8,0,0,0,0-16Z"></path></svg>`,
   clock: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="currentColor"><path d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm0,192a88,88,0,1,1,88-88A88.1,88.1,0,0,1,128,216Zm64-88a8,8,0,0,1-8,8H128a8,8,0,0,1-8-8V72a8,8,0,0,1,16,0v48h48A8,8,0,0,1,192,128Z"></path></svg>`,
-  menu: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="currentColor"><path d="M224,128a8,8,0,0,1-8,8H40a8,8,0,0,1,0-16H216A8,8,0,0,1,224,128ZM40,72H216a8,8,0,0,0,0-16H40a8,8,0,0,0,0,16ZM216,184H40a8,8,0,0,0,0,16H216a8,8,0,0,0,0-16Z"></path></svg>`
+  menu: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="currentColor"><path d="M224,128a8,8,0,0,1-8,8H40a8,8,0,0,1,0-16H216A8,8,0,0,1,224,128ZM40,72H216a8,8,0,0,0,0-16H40a8,8,0,0,0,0,16ZM216,184H40a8,8,0,0,0,0,16H216a8,8,0,0,0,0-16Z"></path></svg>`,
+  close: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="currentColor"><path d="M205.66,194.34a8,8,0,0,1-11.32,11.32L128,139.31,61.66,205.66a8,8,0,0,1-11.32-11.32L116.69,128,50.34,61.66A8,8,0,0,1,61.66,50.34L128,116.69l66.34-66.35a8,8,0,0,1,11.32,11.32L139.31,128Z"></path></svg>`
 };
 ---
 
-<a href="/" class="fixed top-6 left-6 z-50 group mix-blend-difference text-white">
-  <div class="w-16 h-16 flex items-center justify-center transition-all duration-300 group-hover:scale-105">
-    <img src="/images/logo.svg" alt="WislaStay" class="w-full h-full opacity-100 group-hover:opacity-100 transition-opacity" />
+<a href="/" class="fixed top-6 left-6 z-[60] group mix-blend-difference text-white">
+  <div class="w-12 h-12 md:w-16 md:h-16 flex items-center justify-center transition-all duration-300 group-hover:scale-105">
+    <img src="/images/logo.svg" alt="WislaStay" class="w-full h-full" />
   </div>
-
-  <span class="absolute left-full top-1/2 -translate-y-1/2 ml-4 font-serif uppercase tracking-widest text-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none whitespace-nowrap drop-shadow-lg">
-    Wisla Stay
-  </span>
 </a>
 
 <header class="fixed top-4 left-0 right-0 z-50 flex justify-center px-4 md:px-0 pointer-events-none">
-  
   <div 
     class="pointer-events-auto relative flex items-center justify-between 
            w-full max-w-[95%] md:max-w-5xl 
-           bg-black/20 backdrop-blur-xl  border border-surface/20 
-            px-2 py-2 md:px-3 md:py-3 shadow-2xl 
-           transition-all duration-500 ease-out hover:bg-surface/15"
+           bg-black/20 backdrop-blur-xl border border-surface/20 
+           px-2 py-2 md:px-3 md:py-3 shadow-2xl transition-all duration-500"
     id="glass-header"
   >
-    
-   
-
-    <nav class="hidden md:flex items-center gap-1 bg-black/20   px-2 py-1 border border-surface/5 mx-4">
+    <nav class="hidden md:flex items-center gap-1 bg-black/20 px-2 py-1 border border-surface/5 mx-4">
       {navigation.map((item) => (
-        <a 
-          href={item.href} 
-          class="text-xs font-bold uppercase tracking-widest text-surface/80 px-5 py-2  hover:bg-accent/50 hover:text-surface transition-all duration-300"
-        >
+        <a href={item.href} class="text-xs font-bold uppercase tracking-widest text-surface/80 px-5 py-2 hover:bg-accent/50 hover:text-surface transition-all">
           {item.label}
         </a>
       ))}
     </nav>
 
-    <div class="flex items-center gap-2 md:gap-3">
-      
-      <div class="hidden md:flex items-center  gap-3 text-surface/90 text-[10px] font-mono border-r border-surface/20 pr-4 mr-1">
-        <div class="flex items-center gap-1.5 opacity-80" title="Czas lokalny">
+    <div class="flex items-center gap-2 md:gap-3 ml-auto md:ml-0">
+      <div class="hidden md:flex items-center gap-3 text-surface/90 text-[10px] font-mono border-r border-surface/20 pr-4 mr-1">
+        <div class="flex items-center gap-1.5 opacity-80">
            <div class="w-3 h-3 text-accent" set:html={icons.clock} />
            <span id="local-time">--:--</span>
         </div>
-        <div class="flex items-center gap-1.5 opacity-80" title="Pogoda w Wiśle">
+        <div class="flex items-center gap-1.5 opacity-80">
             <div class="w-3 h-3 text-yellow-400" set:html={icons.sun} />
-            <span  >-2°C</span>
+            <span>-2°C</span>
         </div>
       </div>
 
-     <button 
-        id="open-booking-btn"
-        class="bg-white text-primary px-6 py-2.5  text-[11px] font-bold uppercase tracking-widest hover:bg-accent hover:text-white transition-all duration-300 shadow-lg cursor-pointer"
-      >
+      <button id="open-booking-btn" class="bg-white text-primary px-4 md:px-6 py-2.5 text-[10px] md:text-[11px] font-bold uppercase tracking-widest hover:bg-accent hover:text-white transition-all shadow-lg cursor-pointer">
         Rezerwuj
       </button>
 
-      <script>
-  // ... код часов ...
-
-  // Логика открытия Drawer (связь с Header)
-  const openBtn = document.getElementById('open-booking-btn');
-  
-  openBtn?.addEventListener('click', (e) => {
-    e.preventDefault();
-    const drawer = document.getElementById('booking-drawer');
-    const panel = document.getElementById('booking-panel');
-    const backdrop = document.getElementById('booking-backdrop');
-
-    if(drawer && panel && backdrop) {
-      drawer.classList.remove('invisible');
-      drawer.setAttribute('aria-hidden', 'false');
-      
-      // Небольшая задержка для плавности анимации (чтобы display:block успел сработать)
-      setTimeout(() => {
-        panel.classList.remove('translate-x-full');
-        panel.classList.add('translate-x-0');
-        backdrop.classList.remove('opacity-0');
-        backdrop.classList.add('opacity-100');
-      }, 10);
-    }
-  });
-</script>
-
-      <button class="md:hidden w-10 h-10 flex items-center justify-center bg-surface/10  text-surface backdrop-blur-sm border border-surface/10 active:scale-95 transition-transform">
-         <div class="w-5 h-5" set:html={icons.menu} />
+      <button id="mobile-menu-toggle" class="md:hidden w-10 h-10 flex items-center justify-center bg-surface/10 text-surface backdrop-blur-sm border border-surface/10 active:scale-95 transition-transform cursor-pointer">
+         <div class="w-5 h-5" id="menu-icon" set:html={icons.menu} />
       </button>
-
     </div>
-
   </div>
 </header>
 
+<div id="mobile-menu" class="fixed inset-0 z-[55] bg-primary/95 backdrop-blur-2xl translate-x-full transition-transform duration-500 flex flex-col items-center justify-center">
+  <nav class="flex flex-col items-center gap-8">
+    {navigation.map((item) => (
+      <a href={item.href} class="mobile-nav-link text-3xl font-serif text-white hover:text-accent transition-colors italic">
+        {item.label}
+      </a>
+    ))}
+  </nav>
+</div>
+
 <script>
-  // Скрипт для часов (Локальное время Варшавы/Вислы)
+  // Логика открытия Drawer (связь с Header)
+  const openBookingBtn = document.getElementById('open-booking-btn');
+  
+  openBookingBtn?.addEventListener('click', (e) => {
+    e.preventDefault();
+    // @ts-ignore
+    window.openBookingDrawer?.();
+  });
+
+  // Логика мобильного меню
+  const menuToggle = document.getElementById('mobile-menu-toggle');
+  const mobileMenu = document.getElementById('mobile-menu');
+  const menuIcon = document.getElementById('menu-icon');
+  const mobileLinks = document.querySelectorAll('.mobile-nav-link');
+  
+  let isMenuOpen = false;
+
+  const closeMenuIcons = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="currentColor"><path d="M205.66,194.34a8,8,0,0,1-11.32,11.32L128,139.31,61.66,205.66a8,8,0,0,1-11.32-11.32L116.69,128,50.34,61.66A8,8,0,0,1,61.66,50.34L128,116.69l66.34-66.35a8,8,0,0,1,11.32,11.32L139.31,128Z"></path></svg>`;
+  const openMenuIcons = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="currentColor"><path d="M224,128a8,8,0,0,1-8,8H40a8,8,0,0,1,0-16H216A8,8,0,0,1,224,128ZM40,72H216a8,8,0,0,0,0-16H40a8,8,0,0,0,0,16ZM216,184H40a8,8,0,0,0,0,16H216a8,8,0,0,0,0-16Z"></path></svg>`;
+
+  function toggleMenu() {
+    isMenuOpen = !isMenuOpen;
+    if (isMenuOpen) {
+      mobileMenu?.classList.remove('translate-x-full');
+      if (menuIcon) menuIcon.innerHTML = closeMenuIcons;
+      document.body.style.overflow = 'hidden';
+    } else {
+      mobileMenu?.classList.add('translate-x-full');
+      if (menuIcon) menuIcon.innerHTML = openMenuIcons;
+      document.body.style.overflow = '';
+    }
+  }
+
+  menuToggle?.addEventListener('click', toggleMenu);
+  mobileLinks.forEach(link => link.addEventListener('click', toggleMenu));
+
+  // Часы
   function updateTime() {
     const timeElement = document.getElementById('local-time');
     if (!timeElement) return;
-
     const now = new Date();
-    // Принудительно ставим часовой пояс Варшавы
-    const options: Intl.DateTimeFormatOptions = { 
-      hour: '2-digit', 
-      minute: '2-digit', 
-      timeZone: 'Europe/Warsaw' 
-    };
+    const options: Intl.DateTimeFormatOptions = { hour: '2-digit', minute: '2-digit', timeZone: 'Europe/Warsaw' };
     timeElement.textContent = now.toLocaleTimeString('pl-PL', options);
   }
-
   setInterval(updateTime, 1000);
   updateTime();
 </script>
