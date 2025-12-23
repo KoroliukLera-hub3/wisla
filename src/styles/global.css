@@ -39,6 +39,9 @@
   --spacing-container: 1.5rem;
 }
 
+h1, h2, h3 {
+  font-display: optional; 
+}
 /* --- 3. Базовые стили --- */
 @layer base {
   body {
