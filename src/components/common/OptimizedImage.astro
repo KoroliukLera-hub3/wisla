@@ -1,0 +1,28 @@
+---
+interface Props {
+  src: string;
+  alt: string;
+  class?: string;
+  isPriority?: boolean; // Для первой картинки (LCP)
+  width?: number;
+  height?: number;
+}
+
+const { src, alt, class: className, isPriority = false, width, height } = Astro.props;
+---
+
+<img
+  src={src}
+  alt={alt}
+  class={className}
+  width={width}
+  height={height}
+  
+  /* КРИТИЧЕСКАЯ ЧАСТЬ ДЛЯ ОПТИМИЗАЦИИ */
+  loading={isPriority ? "eager" : "lazy"}
+  decoding={isPriority ? "sync" : "async"}
+  fetchpriority={isPriority ? "high" : "low"}
+  
+  /* Защита от CLS: если размеры не переданы, браузер может дергаться */
+  style={!width ? "aspect-ratio: auto;" : ""}
+/>

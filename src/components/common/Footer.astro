@@ -54,7 +54,7 @@ const icons = {
           </p>
           <p>
             <span class="block text-white/50 text-xs uppercase tracking-widest mb-1">Rezerwacje</span>
-            <a href="tel:+48514318724" class="hover:text-white transition-colors">+48 514 318 724</a><br/>
+            <a href="tel:+48514318724" class="py-2 hover:text-white transition-colors">+48 514 318 724</a><br/>
             <a href="mailto:rezerwacje@wislastay.org" class="hover:text-white transition-colors">rezerwacje@wislastay.org</a>
           </p>
         </div>
@@ -71,7 +71,7 @@ const icons = {
             placeholder="Twój email" 
             class="bg-transparent w-full outline-none text-white placeholder-gray-600 text-sm py-1"
           />
-          <button type="submit" class="text-white hover:text-accent transition-colors">
+          <button aria-label="Zapisz się do newslettera" type="submit" class="text-white hover:text-accent transition-colors">
             <div class="w-5 h-5" set:html={icons.arrow} />
           </button>
         </form>
