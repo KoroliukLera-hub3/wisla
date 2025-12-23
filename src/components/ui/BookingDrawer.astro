@@ -73,7 +73,7 @@ const icons = {
                         />
                         <div class="bg-white p-3 border border-gray-200 peer-checked:border-accent peer-checked:ring-1 peer-checked:ring-accent transition-all duration-300 flex items-center gap-4 hover:border-gray-300">
                             <div class="w-16 h-16 overflow-hidden shrink-0 bg-gray-100">
-                                <img src={room.image} alt={room.name} class="w-full h-full object-cover" />
+                                <img loading="lazy" decoding="async" src={room.image} alt={room.name} class="w-full h-full object-cover" />
                             </div>
                             <div class="flex-grow">
                                 <span class="block font-serif text-lg text-primary leading-tight mb-1">{room.name}</span>

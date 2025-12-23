@@ -43,7 +43,7 @@ const reviewImages = [
                 <div class="relative flex-shrink-0">
                   <div class="absolute -bottom-6 -left-6 w-full h-full bg-accent -z-10 opacity-20"></div>
                   <div class="relative w-[280px] h-[350px] md:w-[320px] md:h-[400px] bg-gray-200 overflow-hidden shadow-2xl">
-                    <img 
+                    <img loading="lazy" decoding="async" 
                       src={reviewImages[index % reviewImages.length]} 
                       alt={review.author} 
                       width="320"

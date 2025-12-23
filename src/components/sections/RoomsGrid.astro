@@ -24,7 +24,7 @@ const largeRoom = roomsData.items[2];
       <div class="lg:col-span-5 flex flex-col gap-6 lg:gap-8">
         {smallRooms.map((room) => (
           <div class="group relative overflow-hidden h-[300px] lg:h-[350px] w-full">
-            <img 
+            <img loading="lazy" decoding="async" 
               src={room.image} 
               alt={room.name} 
               class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
@@ -47,7 +47,7 @@ const largeRoom = roomsData.items[2];
 
       <div class="lg:col-span-7 flex flex-col h-full">
         <div class="group relative overflow-hidden h-[400px] lg:h-[550px] w-full mb-8">
-           <img 
+           <img loading="lazy" decoding="async" 
               src={largeRoom.image} 
               alt={largeRoom.name} 
               class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"

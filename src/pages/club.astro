@@ -50,7 +50,7 @@ const gameDetails = [
   
   <section class="relative h-screen flex items-center justify-center overflow-hidden bg-primary">
     <div class="absolute inset-0 z-0">
-      <img src="/images/club-interior.webp" alt="Ekskluzywny salon gier w Wiśle" class="w-full h-full object-cover opacity-40 scale-105 animate-slow-zoom" />
+      <img loading="lazy" decoding="async" src="/images/club-interior.webp" alt="Ekskluzywny salon gier w Wiśle" class="w-full h-full object-cover opacity-40 scale-105 animate-slow-zoom" />
       <div class="absolute inset-0 bg-gradient-to-b from-primary/80 via-transparent to-primary"></div>
     </div>
 
@@ -128,7 +128,7 @@ const gameDetails = [
 
             <div class={`lg:col-span-7 ${index % 2 === 1 ? 'lg:order-1' : ''}`}>
               <div class="relative group overflow-hidden shadow-2xl">
-                <img src={game.image} alt={game.title} class="w-full h-full object-cover transition-transform duration-[2000ms] group-hover:scale-110" />
+                <img loading="lazy" decoding="async" src={game.image} alt={game.title} class="w-full h-full object-cover transition-transform duration-[2000ms] group-hover:scale-110" />
                 <div class="absolute inset-0 bg-primary/20 group-hover:bg-transparent transition-colors duration-700"></div>
                 <div class="absolute inset-8 border border-white/10 pointer-events-none"></div>
               </div>
