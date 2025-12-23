@@ -1,0 +1,62 @@
+---
+// src/components/utils/SmoothScroll.astro
+---
+
+<script>
+  import Lenis from 'lenis';
+
+  // Настройки "дорогого" скролла
+  const lenis = new Lenis({
+    duration: 1.2, // Длительность инерции (чем больше, тем "тяжелее" сайт)
+    easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), // Expo Out
+    direction: 'vertical',
+    gestureDirection: 'vertical',
+    smooth: true,
+    mouseMultiplier: 1,
+    smoothTouch: false, // На тач-скринах лучше оставлять нативный скролл
+    touchMultiplier: 2,
+  });
+
+  // Цикл анимации (RAF)
+  function raf(time) {
+    lenis.raf(time);
+    requestAnimationFrame(raf);
+  }
+
+  requestAnimationFrame(raf);
+
+  // Интеграция с якорными ссылками (чтобы "О нас" скроллилось плавно)
+  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+      e.preventDefault();
+      const href = this.getAttribute('href');
+      if (!href || href === '#') return;
+      
+      // Lenis сам обработает плавный скролл к якорю
+      lenis.scrollTo(href);
+    });
+  });
+</script>
+
+<style is:global>
+  /* Рекомендованные стили для Lenis */
+  html.lenis, html.lenis body {
+    height: auto;
+  }
+  
+  .lenis.lenis-smooth {
+    scroll-behavior: auto !important; /* Отключаем нативный smooth scroll */
+  }
+
+  .lenis.lenis-smooth [data-lenis-prevent] {
+    overscroll-behavior: contain;
+  }
+
+  .lenis.lenis-stopped {
+    overflow: hidden;
+  }
+  
+  .lenis.lenis-scrolling iframe {
+    pointer-events: none;
+  }
+</style>

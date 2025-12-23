@@ -1,0 +1,43 @@
+{
+  "heading": "Historie Pisane Ciszą",
+  "subheading": "Zaufali Nam",
+  "press": [
+    
+    { "name": "Vogue Polska", "logo": "vogue" },
+    { "name": "Design Hotels", "logo": "design_hotels" },
+    { "name": "Forbes Life", "logo": "forbes" },
+    { "name": "Elle Decoration", "logo": "elle" }
+  ],
+  "reviews": [
+    {
+      "author": "Anna K.",
+      "role": "Warszawa",
+      "text": "Wreszcie miejsce w Wiśle, które nie krzyczy góralskim folklorem, a szepcze nowoczesnym designem. Architektura na światowym poziomie.",
+      "rating": 5
+    },
+    {
+      "author": "Marek i Ewa",
+      "role": "Kraków",
+      "text": "Apartament Wisła to absolutny majstersztyk. Budzić się z widokiem na rzekę, słysząc tylko szum wody — bezcenne doświadczenie.",
+      "rating": 4.5
+    },
+    {
+      "author": "Tomasz R.",
+      "role": "Business Traveller",
+      "text": "Idealny balans między luksusem a dziką naturą. Internet szybki, kawa doskonała, a cisza pozwala zebrać myśli jak nigdzie indziej.",
+      "rating": 5
+    },
+    {
+      "author": "Piotr M.",
+      "role": "Architekt",
+      "text": "Dbałość o detal jest tu fenomenalna. Od oświetlenia dobranego specjalnie do czytania, po fakturę kamienia w łazience. Uczta dla zmysłów.",
+      "rating": 5
+    },
+    {
+      "author": "Karolina & Paweł",
+      "role": "Goście Weselni",
+      "text": "Dyskrecja i obsługa na najwyższym poziomie. Czuliśmy się w pełni zaopiekowani, a jednocześnie prywatnie. Obsługa intuicyjnie wie, kiedy się pojawić.",
+      "rating": 5
+    }
+  ]
+}

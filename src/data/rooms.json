@@ -1,0 +1,78 @@
+{
+  "heading": "Twoja Prywatna Przestrzeń",
+  "subheading": "Kolekcja Apartamentów",
+  "items": [
+    {
+      "id": "forest",
+      "name": "Pokój Leśny",
+      "price": "450 PLN",
+      "priceDetail": "/ noc",
+      "image": "/images/room-forest.webp",
+      "size": "28 m²",
+      "capacity": "2 osoby",
+      "bed": "King Size",
+      "description": "Azyl zatopiony w zieleni. Budzisz się, widząc tylko ściane lasu. Minimalistyczne wnętrze, w którym zapach drewna miesza się z poranną mgłą. Idealny start do świata Slow.",
+      "features": ["Widok na ścianę lasu", "Balkon z leżakami", "Kosmetyki naturalne", "Wi-Fi Starlink"]
+    },
+    {
+      "id": "stream",
+      "name": "Studio Potok",
+      "price": "550 PLN",
+      "priceDetail": "/ noc",
+      "image": "/images/room-stream.webp",
+      "size": "32 m²",
+      "capacity": "2 osoby",
+      "bed": "King Size",
+      "description": "Apartament położony najbliżej rzeki. Tutaj nie potrzebujesz muzyki – zasypiasz i budzisz się przy naturalnym szumie wody. Przeszklony narożnik zaciera granicę z naturą.",
+      "features": ["Bezpośrednio przy rzece", "Taras nad wodą", "Ekspres przelewowy", "System Audio Bang & Olufsen"]
+    },
+    {
+      "id": "loft",
+      "name": "Loft Górski",
+      "price": "650 PLN",
+      "priceDetail": "/ noc",
+      "image": "/images/room-loft.webp",
+      "size": "45 m²",
+      "capacity": "2-3 osoby",
+      "bed": "Queen + Sofa",
+      "description": "Dwupoziomowa przestrzeń dla kreatywnych dusz. Wysokie na 5 metrów sufity, antresola z miejscem do pracy i ogromne świetliki, przez które nocą widać gwiazdy.",
+      "features": ["Dwupoziomowy (Antresola)", "Biurko z widokiem", "Okna dachowe", "Biblioteczka albumów"]
+    },
+    {
+      "id": "family",
+      "name": "Apartament Rodzinny",
+      "price": "750 PLN",
+      "priceDetail": "/ noc",
+      "image": "/images/room-family.webp",
+      "size": "55 m²",
+      "capacity": "4 osoby",
+      "bed": "2x Queen Size",
+      "description": "Przestrzeń zaprojektowana do wspólnego celebrowania. Oddzielna strefa dzienna z dużym stołem z litego dębu, gdzie gry planszowe i rozmowy smakują najlepiej.",
+      "features": ["Dwie sypialnie", "Aneks kuchenny", "Duży taras rodzinny", "Gry i Smart TV"]
+    },
+    {
+      "id": "zen",
+      "name": "Apartament Zen (SPA)",
+      "price": "950 PLN",
+      "priceDetail": "/ noc",
+      "image": "/images/room-zen.webp",
+      "size": "60 m²",
+      "capacity": "2 osoby",
+      "bed": "King Size",
+      "description": "Twoje prywatne Wellness. Apartament wyposażony we własną saunę fińską i strefę do medytacji. Wnętrze utrzymane w japońskiej estetyce wabi-sabi.",
+      "features": ["Prywatna sauna fińska", "Mata do jogi", "Zestaw do parzenia herbaty", "Wyciszona strefa"]
+    },
+    {
+      "id": "wisla",
+      "name": "Apartament Wisła",
+      "price": "1200 PLN",
+      "priceDetail": "/ noc",
+      "image": "/images/room-grand.webp",
+      "size": "85 m²",
+      "capacity": "2-3 osoby",
+      "bed": "Emperor Size",
+      "description": "Ikona stylu WislaStay. Panoramiczny widok na zakole rzeki, wolnostojąca wanna przy oknie i prywatne wejście. Wybór dla tych, którzy nie uznają kompromisów.",
+      "features": ["Widok panoramiczny", "Wanna wolnostojąca", "Prywatne wejście", "Welcome Champagne"]
+    }
+  ]
+}

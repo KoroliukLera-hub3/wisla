@@ -1,0 +1,39 @@
+{
+  "title": "Natura na Talerzu",
+  "subtitle": "Restauracja Leśna",
+  "description": "Nasza kuchnia to hołd dla Beskidów. Używamy tylko tego, co daje nam rzeka i las. Pstrąg z górskiego potoku, dziczyzna z okolicznych lasów i zioła zbierane o świcie.",
+  "menuHighlights": [
+    {
+      "name": "Pstrąg Potokowy",
+      "description": "Smażony na maśle klarowanym, puree z topinamburu, dzikie zioła.",
+      "price": "65 PLN"
+    },
+    {
+      "name": "Comber z Jelenia",
+      "description": "Sos z owoców leśnych, pieczone warzywa korzeniowe, oliwa świerkowa.",
+      "price": "120 PLN"
+    },
+    {
+      "name": "Leśny Deser",
+      "description": "Mus z ciemnej czekolady, puder z grzybów, sorbet z rokitnika.",
+      "price": "45 PLN"
+    }
+  ],
+  "gallery": [
+    {
+      "name": "Krem z Borowików",
+      "price": "32 PLN",
+      "image": "/images/dining-soup.webp"
+    },
+    {
+      "name": "Kaczka Sous-Vide",
+      "price": "85 PLN",
+      "image": "/images/dining-duck.webp"
+    },
+    {
+      "name": "Koktajl 'Wisła Mist'",
+      "price": "40 PLN",
+      "image": "/images/dining-cocktail.webp"
+    }
+  ]
+}

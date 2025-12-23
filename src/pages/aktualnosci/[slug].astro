@@ -1,0 +1,117 @@
+---
+import MainLayout from '../../layouts/MainLayout.astro';
+import newsData from '../../data/news.json';
+
+// 1. Генерация путей
+export async function getStaticPaths() {
+  return newsData.map((post) => ({
+    params: { slug: post.slug },
+    props: { post },
+  }));
+}
+
+// 2. Получение данных
+const { post } = Astro.props;
+
+// 3. Другие новости
+const otherNews = newsData.filter(item => item.slug !== post.slug).slice(0, 3);
+---
+
+<MainLayout title={`${post.title} | WislaStay`}>
+  
+  <header class="relative h-[80vh] min-h-[600px] flex items-center justify-center">
+    <div class="absolute inset-0 z-0">
+      <img src={post.image} alt={post.title} class="w-full h-full object-cover" />
+      <div class="absolute inset-0 bg-black/50"></div>
+    </div>
+    
+    <div class="relative z-10 container-main text-center text-white mt-20 max-w-5xl">
+      <div class="inline-block border border-white/30 px-6 py-2 mb-8 backdrop-blur-sm">
+        <span class="text-accent font-bold uppercase tracking-[0.25em] text-sm">
+          {post.date}
+        </span>
+      </div>
+      <h1 class="font-serif text-5xl md:text-7xl lg:text-8xl leading-[1.1] mb-8 drop-shadow-2xl text-balance">
+        {post.title}
+      </h1>
+      <p class="text-lg md:text-2xl font-light text-white/90 max-w-2xl mx-auto italic font-serif">
+        {post.excerpt}
+      </p>
+    </div>
+  </header>
+
+  <article class="py-20 md:py-32 bg-white">
+    <div class="container-main max-w-[800px] mx-auto">
+      
+      <div class="prose prose-lg md:prose-xl max-w-none
+        prose-p:text-gray-600 prose-p:font-light prose-p:leading-8
+        prose-headings:font-serif prose-headings:font-normal prose-headings:text-primary prose-headings:mt-16
+        prose-a:text-accent prose-a:no-underline hover:prose-a:underline
+        prose-blockquote:border-l-4 prose-blockquote:border-accent prose-blockquote:bg-gray-50 prose-blockquote:py-6 prose-blockquote:pl-8 prose-blockquote:pr-4 prose-blockquote:font-serif prose-blockquote:text-xl prose-blockquote:not-italic prose-blockquote:text-primary
+        prose-strong:font-bold prose-strong:text-primary
+        prose-li:marker:text-accent
+        
+        /* Drop Cap (Буквица) через Tailwind Arbitrary Variants */
+        [&>p:first-of-type]:first-letter:text-7xl 
+        [&>p:first-of-type]:first-letter:text-accent 
+        [&>p:first-of-type]:first-letter:font-serif 
+        [&>p:first-of-type]:first-letter:float-left 
+        [&>p:first-of-type]:first-letter:mr-4 
+        [&>p:first-of-type]:first-letter:mt-2
+        [&>p:first-of-type]:first-letter:leading-[0.8]">
+        
+        <Fragment set:html={post.content} />
+      </div>
+
+      {post.gallery && (
+        <div class="mt-24 mb-12">
+          <h3 class="font-serif text-3xl text-primary mb-8 border-b border-gray-200 pb-4">Galeria Zdjęć</h3>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8">
+            {post.gallery.map((img, index) => (
+              <div class={`relative overflow-hidden group ${index === 0 ? 'md:col-span-2 aspect-[21/9]' : 'aspect-[4/5]'}`}>
+                <img 
+                  src={img} 
+                  alt={`Galeria ${post.title} - ${index + 1}`} 
+                  class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105"
+                />
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      <div class="mt-16 pt-16 border-t border-gray-200 flex justify-center">
+        <a href="/" class="group inline-flex flex-col items-center gap-2 text-xs font-bold uppercase tracking-widest text-gray-400 hover:text-primary transition-colors">
+          <span class="w-12 h-[1px] bg-gray-300 group-hover:bg-primary transition-colors"></span>
+          Wróć na stronę główną
+        </a>
+      </div>
+
+    </div>
+  </article>
+
+  <section class="py-24 bg-[#F9F9F7]">
+    <div class="container-main">
+      <div class="flex justify-between items-end mb-12">
+         <h3 class="font-serif text-4xl text-primary">Więcej Historii</h3>
+         <a href="/aktualnosci" class="text-xs font-bold uppercase tracking-widest text-gray-500 hover:text-accent">Archiwum</a>
+      </div>
+      
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
+        {otherNews.map((item) => (
+          <a href={`/aktualnosci/${item.slug}`} class="group block">
+            <div class="overflow-hidden aspect-[3/2] mb-6 relative">
+              <img src={item.image} alt={item.title} class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 grayscale-[20%] group-hover:grayscale-0"/>
+              <div class="absolute top-4 left-4 bg-white/90 px-3 py-1 text-[10px] font-bold uppercase tracking-widest text-primary">
+                {item.date}
+              </div>
+            </div>
+            <h4 class="font-serif text-2xl text-primary group-hover:text-accent transition-colors leading-tight mb-3">{item.title}</h4>
+            <p class="text-sm text-gray-500 line-clamp-2 font-light">{item.excerpt}</p>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+</MainLayout>

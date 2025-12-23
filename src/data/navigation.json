@@ -1,0 +1,10 @@
+[
+  { "label": "Pokoje", "href": "/pokoje" },
+  { "label": "Doświadczenia", "href": "/doswiadczenia" },
+  { "label": "O nas", "href": "/o-nas" },
+  { "label": "Kontakt", "href": "/kontakt" },
+  { "label": "Sprawdź Status", "href": "/rezerwacja/status" }
+
+
+ 
+]

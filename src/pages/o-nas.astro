@@ -1,0 +1,176 @@
+---
+import MainLayout from '../layouts/MainLayout.astro';
+---
+
+<MainLayout title="O Nas | Filozofia WislaStay">
+  
+  <section class="bg-accent py-24 md:py-32 flex items-center justify-center">
+    <img 
+      src="/images/logo-white.svg" 
+      alt="WislaStay" 
+      class="w-40 md:w-56 h-auto animate-fade-in drop-shadow-md"
+    />
+  </section>
+
+  <header class="relative h-[70vh] min-h-[500px] flex items-center justify-center overflow-hidden">
+    <div class="absolute inset-0 z-0">
+      <img src="/images/about-hero.webp" alt="WislaStay wtopiony w góry" class="w-full h-full object-cover scale-105 animate-slow-zoom" />
+      <div class="absolute inset-0 bg-black/40"></div>
+    </div>
+    
+    <div class="relative z-10 container-main py-20 text-center text-surface mt-12">
+      <span class="text-surface font-bold uppercase tracking-[0.25em] text-sm block mb-6 animate-fade-in">
+        Nasza Historia
+      </span>
+      <h1 class="font-serif text-5xl md:text-7xl lg:text-8xl leading-[1.1] mb-8 animate-fade-in delay-100">
+        Nie budowaliśmy hotelu.<br/> Tworzyliśmy azyl.
+      </h1>
+      <p class="text-xl md:text-2xl font-light text-surface/90 max-w-3xl mx-auto font-serif animate-fade-in delay-200">
+        WislaStay to opowieść o powrocie do korzeni, szacunku do natury i redefinicji luksusu w sercu Beskidów.
+      </p>
+    </div>
+  </header>
+
+  <section class="py-24 md:py-32 bg-surface">
+    <div class="container-main max-w-4xl text-center">
+      <h2 class="font-serif text-4xl text-primary mb-12">Zwolnij. Oddychaj. Jesteś u celu.</h2>
+      <div class="prose prose-lg prose-p:text-gray-600 prose-p:font-light prose-p:leading-relaxed mx-auto">
+        <p class="lead text-2xl font-serif text-primary/80">
+          W świecie, który pędzi bez tchu, cisza stała się najdroższą walutą. WislaStay powstał jako odpowiedź na ten deficyt.
+        </p>
+        <p>
+          Nie chcieliśmy tworzyć kolejnego miejsca, które jest tylko "bazą wypadową". Chcieliśmy stworzyć miejsce, które jest celem samym w sobie. Przestrzeń, w której czas płynie wolniej, a zmysły wyostrzają się na to, co pierwotne: zapach mokrego lasu, szum rzeki, ciepło ognia i smak prawdziwego jedzenia. To nasza definicja filozofii <em>Slow Life</em>.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="py-24 bg-surface overflow-hidden">
+    <div class="container-main">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+        
+        <div class="order-2 lg:order-1">
+          <span class="text-accent text-xs font-bold uppercase tracking-widest block mb-4">Rozdział I</span>
+          <h2 class="font-serif text-4xl md:text-5xl text-primary mb-8 leading-tight">Architektura, która słucha gór.</h2>
+          <div class="prose prose-lg prose-p:text-gray-600 prose-p:font-light">
+            <p>
+              Kiedy pierwszy raz stanęliśmy na tej działce, wiedzieliśmy jedno: cokolwiek tu powstanie, nie może dominować nad krajobrazem. Beskidy są surowe i majestatyczne; nasza architektura musiała być pokorna.
+            </p>
+            <p>
+              Projektując bryłę WislaStay, postawiliśmy na "architekturę tła". Użyliśmy materiałów, które starzeją się z godnością. Elewacja z surowego modrzewia z czasem pokryje się srebrzystą patyną, upodabniając budynek do pni otaczających go drzew. Kamień w lobby to lokalny piaskowiec z Brennej. Wielkoformatowe przeszklenia nie są barierą, lecz ramą dla żywego obrazu, jakim jest las za oknem.
+            </p>
+            <blockquote>
+              "Najlepsza architektura to taka, której prawie nie widać. Która pozwala naturze grać pierwsze skrzypce."
+            </blockquote>
+          </div>
+        </div>
+
+        <div class="order-1 lg:order-2 relative h-[600px]">
+          <img src="/images/about-textures.webp" alt="Detale architektoniczne WislaStay" class="w-full h-full object-cover shadow-2xl z-10 relative" />
+          <div class="absolute -bottom-12 -left-12 w-64 h-64 bg-accent/10 -z-0"></div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+   <section class="py-24 bg-surface">
+    <div class="container-main">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+        
+        <div class="relative h-[600px] lg:-ml-12">
+          <img src="/images/about-lifestyle.webp" alt="Odpoczynek przy kominku" class="w-full h-full object-cover shadow-2xl z-10 relative" />
+           <div class="absolute -top-12 -right-12 w-64 h-64 bg-primary/5 -z-0"></div>
+        </div>
+
+        <div class="lg:pl-12">
+          <span class="text-accent text-xs font-bold uppercase tracking-widest block mb-4">Rozdział II</span>
+          <h2 class="font-serif text-4xl md:text-5xl text-primary mb-8 leading-tight">Luksus ery post-materialnej.</h2>
+          <div class="prose prose-lg prose-p:text-gray-600 prose-p:font-light">
+            <p>
+              Czym jest luksus w XXI wieku? Dla nas przestał on oznaczać złote klamki i marmurowe posadzki sprowadzane z drugiego końca świata. Dziś luksusem jest to, co rzadkie.
+            </p>
+            <p>
+              Luksus to przestrzeń – dlatego nasze apartamenty mają ponadstandardową wysokość i metraż. Luksus to czas – dlatego śniadania serwujemy do południa, bez pośpiechu. Luksus to autentyczność – dlatego w naszej kuchni nie znajdziesz mrożonek, a jedynie to, co danego dnia przyniósł las, rzeka lub lokalny rolnik. To powrót do rzemiosła, dbałości o detal i sensorycznych doznań.
+            </p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <section class="py-24 bg-surface relative overflow-hidden">
+    
+    
+    <div class="container-main relative z-10">
+        <div class="max-w-3xl mx-auto text-center mb-16">
+            <span class="text-accent text-xs font-bold uppercase tracking-widest block mb-4">Rozdział III</span>
+            <h2 class="font-serif text-4xl md:text-5xl text-primary mb-6 leading-tight">Dusza Miejsca: Ludzie.</h2>
+            <p class="text-xl text-gray-600 font-light font-serif">
+                Technologia jest ważna, ale nic nie zastąpi szczerego uśmiechu i intuicyjnego serwisu.
+            </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+            <div class="prose prose-lg prose-p:text-gray-600 prose-p:font-light">
+                 <p>
+                    WislaStay tworzy zespół pasjonatów. Nie jesteśmy "obsługą hotelową". Jesteśmy gospodarzami. Nasz Concierge nie korzysta z Google Maps – on zna te góry, bo się tu urodził. Pokaże Ci ścieżki, których nie ma w przewodnikach. Nasz Szef Kuchni zna po imieniu dostawcę serów i wie, w której części lasu rosną najlepsze rydze.
+                </p>
+                <p>
+                    Wierzymy w serwis, który jest dyskretny, ale obecny. Który wyprzedza Twoje potrzeby, zanim sam je sobie uświadomisz. To sztuka gościnności w starym, dobrym stylu, wsparta nowoczesnym komfortem.
+                </p>
+            </div>
+             <div class="h-[500px] relative">
+                <img src="/images/about-team.webp" alt="Zespół WislaStay" class="w-full h-full object-cover rounded-lg shadow-lg" />
+            </div>
+        </div>
+    </div>
+  </section>
+
+  <section class="py-32 bg-primary text-surface text-center relative overflow-hidden">
+     <div class="absolute inset-0 opacity-20 bg-[url('/images/about-hero.webp')] bg-cover bg-center mix-blend-overlay"></div>
+    <div class="container-main relative z-10">
+      <h2 class="font-serif text-5xl md:text-6xl mb-8">Stań się częścią tej historii.</h2>
+      <p class="text-xl font-light text-surface/80 max-w-2xl mx-auto mb-12 font-serif">
+        Zapraszamy Cię do miejsca, gdzie góry spotykają się z designem, a Ty spotykasz się ze spokojem.
+      </p>
+      <a href="/rezerwacja" class="inline-block bg-accent text-surface px-10 py-4 font-bold uppercase tracking-[0.15em] hover:bg-surface hover:text-primary transition-all duration-300">
+        Zarezerwuj Pobyt
+      </a>
+    </div>
+  </section>
+
+</MainLayout>
+
+<style>
+    .animate-slow-zoom {
+        animation: slowZoom 20s infinite alternate ease-in-out;
+    }
+    @keyframes slowZoom {
+        from { transform: scale(1.0); }
+        to { transform: scale(1.1); }
+    }
+
+    .animate-fade-in {
+        opacity: 0;
+        transform: translateY(20px);
+        animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+    .delay-100 { animation-delay: 0.1s; }
+    .delay-200 { animation-delay: 0.2s; }
+    
+    @keyframes fadeInUp {
+        to { opacity: 1; transform: translateY(0); }
+    }
+    
+    blockquote {
+        border-left: 3px solid var(--color-accent);
+        padding-left: 1.5rem;
+        font-family: var(--font-serif);
+        font-style: italic;
+        font-size: 1.25rem;
+        color: var(--color-primary);
+        margin: 2.5rem 0;
+    }
+</style>

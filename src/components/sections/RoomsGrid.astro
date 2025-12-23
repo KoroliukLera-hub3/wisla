@@ -1,0 +1,79 @@
+---
+import roomsData from '../../data/rooms.json';
+
+// Разделяем данные: первые 2 — маленькие (левая колонка), 3-j — большой (правая)
+const smallRooms = roomsData.items.slice(0, 2);
+const largeRoom = roomsData.items[2];
+---
+
+<section id="pokoje" class="py-20 md:py-32 bg-surface">
+  <div class="container-main">
+    
+    <div class="flex flex-col md:flex-row justify-between items-end mb-16 gap-6">
+      <h2 class="font-serif text-5xl md:text-6xl lg:text-7xl uppercase leading-[0.9] text-primary">
+        Nasze <span class="italic text-accent">Pokoje</span> <br/>
+        i Apartamenty
+      </h2>
+      <p class="max-w-md text-right text-gray-500 font-light hidden md:block">
+        Każde wnętrze to inna historia. Wybierz przestrzeń, która najlepiej odpowiada Twoim potrzebom.
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8">
+      
+      <div class="lg:col-span-5 flex flex-col gap-6 lg:gap-8">
+        {smallRooms.map((room) => (
+          <div class="group relative overflow-hidden h-[300px] lg:h-[350px] w-full">
+            <img 
+              src={room.image} 
+              alt={room.name} 
+              class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+            />
+            
+            <div class="absolute top-6 right-6 bg-primary text-white px-4 py-2 text-xs font-bold uppercase tracking-widest z-10">
+              {room.price} <span class="opacity-70 normal-case">/noc</span>
+            </div>
+
+            <div class="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black/80 to-transparent pointer-events-none"></div>
+
+            <h3 class="absolute bottom-6 left-6 font-serif text-3xl text-white drop-shadow-lg group-hover:text-accent transition-colors duration-300">
+              {room.name}
+            </h3>
+            
+            <a href={`/pokoje/`} class="absolute inset-0 z-20" aria-label={`Zobacz ${room.name}`}></a>
+          </div>
+        ))}
+      </div>
+
+      <div class="lg:col-span-7 flex flex-col h-full">
+        <div class="group relative overflow-hidden h-[400px] lg:h-[550px] w-full mb-8">
+           <img 
+              src={largeRoom.image} 
+              alt={largeRoom.name} 
+              class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+            />
+            
+            <div class="absolute top-6 right-6 bg-primary text-white px-5 py-3 text-sm font-bold uppercase tracking-widest z-10">
+              {largeRoom.price} <span class="opacity-70 normal-case">/noc</span>
+            </div>
+            
+            <a href={`/pokoje/`} class="absolute inset-0 z-20"></a>
+        </div>
+
+        <div class="flex flex-col items-start gap-4 pr-0 lg:pr-12">
+          <h3 class="font-serif text-4xl text-primary">
+            {largeRoom.name}
+          </h3>
+          <p class="text-gray-600 leading-relaxed font-light border-l-2 border-accent pl-4">
+            {largeRoom.description}
+          </p>
+          
+          <a href={`/pokoje/`} class="mt-4 px-8 py-3 border border-primary text-xs font-bold uppercase tracking-[0.2em] hover:bg-primary hover:text-white transition-all duration-300">
+            Zobacz szczegóły
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>

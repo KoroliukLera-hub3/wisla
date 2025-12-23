@@ -1,0 +1,60 @@
+---
+// Секция "Welcome Grid" - Имиджевая презентация отеля
+---
+
+<section class="py-20 md:py-32 bg-surface overflow-hidden">
+  <div class="container-main">
+    
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12">
+      
+      <div class="lg:col-span-4 flex flex-col justify-between gap-12">
+        <h2 class="font-serif text-5xl md:text-6xl lg:text-7xl uppercase leading-[0.9] text-primary break-words">
+          Witamy w <br/>
+          <span class="italic text-accent font-light">WislaStay</span>
+        </h2>
+        
+        <div class="relative overflow-hidden aspect-[4/3] group">
+          <img 
+            src="/images/welcome-terrace.webp" 
+            alt="Relaks na tarasie" 
+            class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+          />
+        </div>
+      </div>
+
+      <div class="lg:col-span-4 pt-12 lg:pt-24"> <div class="relative overflow-hidden aspect-[3/5] h-full group shadow-2xl">
+          <img 
+            src="/images/welcome-courtyard.webp" 
+            alt="Architektura hotelu" 
+            class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+          />
+          <div class="absolute top-0 left-0 w-full h-1 bg-accent/50"></div>
+        </div>
+      </div>
+
+      <div class="lg:col-span-4 flex flex-col gap-12 lg:pt-0">
+        <div class="relative overflow-hidden aspect-square group">
+          <img 
+            src="/images/welcome-interior.webp" 
+            alt="Wnętrze lobby" 
+            class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+          />
+        </div>
+
+        <div class="flex flex-col items-start gap-8">
+          <p class="text-primary/80 leading-relaxed text-lg font-light border-l-2 border-accent pl-6">
+            Odkryj azyl, w którym nowoczesna architektura prowadzi cichy dialog z naturą. WislaStay to nie tylko hotel – to przestrzeń odzyskanej równowagi. Zanurz się w luksusie, który szanuje ciszę, i pozwól, by szum rzeki stał się Twoją ulubioną melodią.
+          </p>
+          
+          <a href="/o-nas" class="group flex items-center gap-3 px-8 py-4 border border-primary text-xs font-bold uppercase tracking-[0.2em] hover:bg-primary hover:text-surface transition-all duration-300">
+            Więcej o nas
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 transform group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+            </svg>
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>

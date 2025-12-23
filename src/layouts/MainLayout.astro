@@ -1,0 +1,56 @@
+---
+import '../styles/global.css';
+import siteData from '../data/site.json';
+
+// Подключение шрифтов (Fontsource)
+import '@fontsource/playfair-display/400.css';
+import '@fontsource/playfair-display/500.css';
+import '@fontsource/lato/300.css';
+import '@fontsource/lato/400.css';
+import '@fontsource/lato/700.css';
+
+import Header from '../components/common/Header.astro';
+import BookingDrawer from '../components/ui/BookingDrawer.astro';
+// ИСПРАВЛЕННЫЙ ИМПОРТ:
+import SmoothScroll from '../utils/SmoothScroll.astro'; 
+import Footer from '../components/common/Footer.astro';
+import CookieConsent from '../components/ui/CookieConsent.astro';
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const { 
+  title = siteData.meta.title, 
+  description = siteData.meta.description 
+} = Astro.props;
+---
+
+<!DOCTYPE html>
+<html lang="pl" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="generator" content={Astro.generator} />
+    
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    
+    
+  </head>
+  <body class="flex flex-col min-h-screen">
+ 
+    <Header />
+
+    <main class="flex-grow">
+      <slot />
+    </main>
+
+    <Footer />
+    <BookingDrawer />
+    <CookieConsent />
+    <SmoothScroll />
+  </body>
+</html>

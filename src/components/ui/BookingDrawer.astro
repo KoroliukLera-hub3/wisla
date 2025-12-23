@@ -1,0 +1,216 @@
+---
+import roomsData from '../../data/rooms.json';
+
+const icons = {
+  close: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="currentColor"><path d="M205.66,194.34a8,8,0,0,1-11.32,11.32L128,139.31,61.66,205.66a8,8,0,0,1-11.32-11.32L116.69,128,50.34,61.66A8,8,0,0,1,61.66,50.34L128,116.69l66.34-66.35a8,8,0,0,1,11.32,11.32L139.31,128Z"></path></svg>`,
+  calendar: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="currentColor"><path d="M216,40H176V24a8,8,0,0,0-16,0V40H96V24a8,8,0,0,0-16,0V40H40A16,16,0,0,0,24,56V200a16,16,0,0,0,16,16H216a16,16,0,0,0,16-16V56A16,16,0,0,0,216,40Zm0,160H40V96H216V200Z"></path></svg>`,
+  user: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="currentColor"><path d="M230.92,212c-15.23-26.33-38.7-45.21-66.09-54.16a72,72,0,1,0-73.66,0c-27.39,8.94-50.86,27.82-66.09,54.16a8,8,0,1,0,13.85,8c18.84-32.56,52.14-52,89.07-52s70.23,19.44,89.07,52a8,8,0,1,0,13.85-8ZM72,96a56,56,0,1,1,56,56A56.06,56.06,0,0,1,72,96Z"></path></svg>`,
+  check: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="currentColor"><path d="M229.66,77.66l-128,128a8,8,0,0,1-11.32,0l-56-56a8,8,0,0,1,11.32-11.32L96,188.69,218.34,66.34a8,8,0,0,1,11.32,11.32Z"></path></svg>`
+};
+---
+
+<div id="booking-drawer" class="fixed inset-0 z-[100] invisible" aria-hidden="true" data-analytics-section="booking-drawer">
+  <div id="booking-backdrop" class="absolute inset-0 bg-primary/60 backdrop-blur-sm opacity-0 transition-opacity duration-500 ease-in-out"></div>
+
+  <div id="booking-panel" class="absolute top-0 right-0 h-full w-full max-w-md bg-surface shadow-2xl transform translate-x-full transition-transform duration-500 cubic-bezier(0.16, 1, 0.3, 1) flex flex-col">
+    
+    <div class="flex items-center justify-between p-6 border-b border-gray-200 bg-white shrink-0">
+      <h3 class="font-serif text-2xl text-primary">Twoja Rezerwacja</h3>
+      <button id="close-drawer" class="w-10 h-10 flex items-center justify-center hover:bg-gray-100 transition-colors text-primary cursor-pointer" data-analytics-action="close-drawer">
+        <div class="w-6 h-6" set:html={icons.close} />
+      </button>
+    </div>
+
+    <div class="flex-grow p-6 overflow-y-auto bg-surface space-y-8">
+      <form id="booking-form" class="flex flex-col gap-8" novalidate data-analytics-form="booking">
+        
+        <div class="flex flex-col gap-3">
+          <label class="text-[10px] font-bold uppercase tracking-widest text-gray-500">Dane Kontaktowe</label>
+          <input 
+            type="tel" 
+            id="drawer-phone"
+            required 
+            placeholder="Twój numer telefonu" 
+            class="bg-white p-4 border border-gray-200 outline-none focus:border-accent font-serif text-lg text-primary transition-all"
+            data-analytics-input="phone"
+          />
+        </div>
+
+        <div class="flex flex-col gap-3">
+          <label class="text-[10px] font-bold uppercase tracking-widest text-gray-500">Daty Pobytu</label>
+          <div class="grid grid-cols-2 gap-3">
+            <div class="bg-white p-3 border border-gray-200 focus-within:border-accent">
+              <div class="flex items-center gap-2 text-accent mb-1">
+                <div class="w-3.5 h-3.5" set:html={icons.calendar} />
+                <span class="text-[9px] uppercase font-bold">Przyjazd</span>
+              </div>
+              <input type="date" id="drawer-date-in" required class="w-full bg-transparent outline-none font-serif text-base text-primary cursor-pointer p-0" data-analytics-input="date-in" />
+            </div>
+            <div class="bg-white p-3 border border-gray-200 focus-within:border-accent">
+              <div class="flex items-center gap-2 text-accent mb-1">
+                <div class="w-3.5 h-3.5" set:html={icons.calendar} />
+                <span class="text-[9px] uppercase font-bold">Wyjazd</span>
+              </div>
+              <input type="date" id="drawer-date-out" required class="w-full bg-transparent outline-none font-serif text-base text-primary cursor-pointer p-0" data-analytics-input="date-out" />
+            </div>
+          </div>
+        </div>
+
+        <div class="flex flex-col gap-3">
+            <label class="text-[10px] font-bold uppercase tracking-widest text-gray-500">Wybierz Pokój</label>
+            <div class="flex flex-col gap-3">
+                {roomsData.items.map((room, index) => (
+                    <label class="relative cursor-pointer group">
+                        <input 
+                            type="radio" 
+                            name="room_selection" 
+                            value={room.id} 
+                            data-price={room.price}
+                            data-room-name={room.name}
+                            class="peer sr-only" 
+                            checked={index === 0}
+                            data-analytics-room-id={room.id}
+                        />
+                        <div class="bg-white p-3 border border-gray-200 peer-checked:border-accent peer-checked:ring-1 peer-checked:ring-accent transition-all duration-300 flex items-center gap-4 hover:border-gray-300">
+                            <div class="w-16 h-16 overflow-hidden shrink-0 bg-gray-100">
+                                <img src={room.image} alt={room.name} class="w-full h-full object-cover" />
+                            </div>
+                            <div class="flex-grow">
+                                <span class="block font-serif text-lg text-primary leading-tight mb-1">{room.name}</span>
+                                <span class="text-xs text-gray-500 uppercase tracking-wide font-bold">{room.price}</span>
+                            </div>
+                            <div class="w-6 h-6 bg-accent text-white opacity-0 peer-checked:opacity-100 transition-opacity flex items-center justify-center shrink-0 transform scale-0 peer-checked:scale-100 duration-300">
+                                <div class="w-3.5 h-3.5" set:html={icons.check} />
+                            </div>
+                        </div>
+                    </label>
+                ))}
+            </div>
+        </div>
+
+        <div class="flex flex-col gap-3">
+           <label class="text-[10px] font-bold uppercase tracking-widest text-gray-500">Goście</label>
+           <div class="bg-white p-4 border border-gray-200 flex items-center justify-between">
+              <div class="flex items-center gap-3">
+                 <div class="w-8 h-8 bg-surface flex items-center justify-center text-primary">
+                    <div class="w-4 h-4" set:html={icons.user} />
+                 </div>
+                 <span class="font-bold text-sm text-primary">Dorośli</span>
+              </div>
+              <div class="flex items-center gap-3">
+                <button type="button" class="w-7 h-7 border border-gray-300 flex items-center justify-center hover:border-accent hover:text-accent transition-colors" data-analytics-action="guest-minus">-</button>
+                <span class="font-serif text-lg w-4 text-center" data-analytics-value="guest-count">2</span>
+                <button type="button" class="w-7 h-7 border border-gray-300 flex items-center justify-center hover:border-accent hover:text-accent transition-colors" data-analytics-action="guest-plus">+</button>
+              </div>
+           </div>
+        </div>
+      </form>
+    </div>
+
+   <div class="p-6 bg-white border-t border-gray-200 shrink-0 z-10 shadow-[0_-5px_20px_rgba(0,0,0,0.03)]">
+      <div class="flex justify-between items-end mb-4">
+         <div class="flex flex-col">
+             <span class="text-[10px] text-gray-400 uppercase tracking-widest font-bold">Suma (szacunkowa)</span>
+             <span class="font-serif text-3xl text-primary leading-none" id="total-price">450 PLN</span>
+         </div>
+         <span class="text-xs text-gray-400 mb-1">/noc</span>
+      </div>
+      
+      <button 
+        type="submit" 
+        form="booking-form" 
+        id="submit-booking-btn"
+        class="w-full bg-primary text-white py-4 font-bold uppercase tracking-[0.2em] hover:bg-accent transition-colors duration-300 shadow-lg text-xs md:text-sm cursor-pointer"
+        data-analytics-action="confirm-booking"
+      >
+        Potwierdź Rezerwację
+      </button>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  import { supabase } from '../../lib/supabase';
+
+  const drawer = document.getElementById('booking-drawer');
+  const panel = document.getElementById('booking-panel');
+  const backdrop = document.getElementById('booking-backdrop');
+  const closeBtn = document.getElementById('close-drawer');
+  const form = document.getElementById('booking-form') as HTMLFormElement;
+
+  // Функция для логов (позже сюда добавишь GTM push)
+  const trackEvent = (action: string, label?: string) => {
+    console.log(`[Analytics] Action: ${action}${label ? ` | Label: ${label}` : ''}`);
+    // window.dataLayer?.push({'event': 'booking_event', 'action': action, 'label': label});
+  };
+
+  function closeDrawer() {
+    panel?.classList.add('translate-x-full');
+    backdrop?.classList.add('opacity-0');
+    setTimeout(() => drawer?.classList.add('invisible'), 500);
+    trackEvent('close_drawer');
+  }
+
+  window.openBookingDrawer = (roomId = null) => {
+    drawer?.classList.remove('invisible');
+    setTimeout(() => {
+      panel?.classList.remove('translate-x-full');
+      panel?.classList.add('translate-x-0');
+      backdrop?.classList.remove('opacity-0');
+      backdrop?.classList.add('opacity-100');
+      
+      if (roomId) {
+        const input = document.querySelector(`input[name="room_selection"][value="${roomId}"]`) as HTMLInputElement;
+        if (input) input.checked = true;
+      }
+    }, 10);
+    trackEvent('open_drawer', roomId || 'default');
+  };
+
+  closeBtn?.addEventListener('click', closeDrawer);
+  backdrop?.addEventListener('click', closeDrawer);
+
+  form?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    
+    const submitBtn = document.getElementById('submit-booking-btn') as HTMLButtonElement;
+    const phoneInput = document.getElementById('drawer-phone') as HTMLInputElement;
+    const dateInInput = document.getElementById('drawer-date-in') as HTMLInputElement;
+    const roomInput = document.querySelector('input[name="room_selection"]:checked') as HTMLInputElement;
+
+    if (!submitBtn || !phoneInput || !roomInput) return;
+
+    submitBtn.disabled = true;
+    submitBtn.textContent = "PRZETWARZANIE...";
+
+    const phone = phoneInput.value;
+    const roomId = roomInput.value;
+    const dateIn = dateInInput.value;
+
+    trackEvent('submit_attempt', roomId);
+
+    try {
+      const { error } = await supabase
+        .from('bookings')
+        .insert([{ 
+          phone: phone, 
+          room_id: roomId, 
+          check_in_date: dateIn 
+        }]);
+
+      if (error) throw error;
+
+      trackEvent('submit_success', roomId);
+      localStorage.setItem('current_user_phone', phone);
+      window.location.href = '/rezerwacja/status';
+
+    } catch (err) {
+      trackEvent('submit_error', roomId);
+      console.error("Booking Error:", err);
+      alert("Błąd rezerwacji. Spróbuj ponownie.");
+      submitBtn.disabled = false;
+      submitBtn.textContent = "POTWIERDŹ REZERWACJĘ";
+    }
+  });
+</script>

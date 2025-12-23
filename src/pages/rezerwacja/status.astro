@@ -1,0 +1,139 @@
+---
+import MainLayout from '../../layouts/MainLayout.astro';
+---
+
+<MainLayout title="Status Rezerwacji | WislaStay">
+  
+  <section class="min-h-[80vh] flex flex-col items-center justify-center bg-surface py-20 px-4">
+    
+    <div id="status-card" class="bg-white p-10 md:p-16 max-w-2xl w-full shadow-2xl border-t-4 border-gray-200 text-center opacity-0 transition-opacity duration-1000">
+      
+      <div id="loader">
+        <div class="w-12 h-12 border-4 border-gray-200 border-t-accent rounded-full animate-spin mx-auto mb-6"></div>
+        <h2 class="font-serif text-2xl text-primary">Weryfikacja rezerwacji...</h2>
+      </div>
+
+      <div id="content" class="hidden">
+        <div class="w-20 h-20 bg-green-50 rounded-full flex items-center justify-center mx-auto mb-8 text-green-600">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-10 h-10" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>
+        </div>
+
+        <span class="text-accent text-xs font-bold uppercase tracking-[0.25em] block mb-4">Rezerwacja Przyjęta</span>
+        <h1 class="font-serif text-4xl md:text-5xl text-primary mb-6">Dziękujemy!</h1>
+        
+        <div class="bg-gray-50 p-6 mb-8 text-left border border-gray-100">
+          <p class="text-[10px] text-gray-400 uppercase tracking-widest mb-1">Numer Telefonu</p>
+          <p id="display-phone" class="font-bold text-xl text-primary mb-4 font-serif">...</p>
+          
+          <p class="text-[10px] text-gray-400 uppercase tracking-widest mb-1">Wybrany Apartament</p>
+          <p id="display-room" class="font-bold text-xl text-primary font-serif">...</p>
+
+          <p class="text-[10px] text-gray-400 uppercase tracking-widest mb-1 mt-4">Data Zameldowania</p>
+          <p id="display-date" class="font-bold text-xl text-primary font-serif">...</p>
+        </div>
+
+        <p class="text-gray-500 font-light leading-relaxed mb-10 text-sm">
+          Twój numer telefonu został zarejestrowany w naszym systemie. 
+          W ciągu 30 minut nasz Concierge skontaktuje się z Tobą, aby potwierdzić szczegóły pobytu.
+        </p>
+
+        <a href="/" class="inline-block border border-primary text-primary px-8 py-3 font-bold uppercase tracking-widest hover:bg-primary hover:text-white transition-all text-xs">
+          Wróć na stronę główną
+        </a>
+      </div>
+
+    </div>
+
+    <div id="error-card" class="hidden text-center">
+      <h2 class="font-serif text-3xl text-primary mb-4">Brak aktywnej sesji</h2>
+      <p class="text-gray-500 mb-8 font-light">Nie znaleziono rezerwacji powiązanej z tym urządzeniem.</p>
+      <a href="/pokoje" class="bg-accent text-white px-8 py-3 font-bold uppercase tracking-widest text-xs hover:bg-primary transition-colors">Wybierz Pokój</a>
+    </div>
+
+  </section>
+
+</MainLayout>
+
+<script>
+  import { supabase } from '../../lib/supabase';
+
+  // Ждем полной загрузки DOM
+  document.addEventListener('DOMContentLoaded', () => {
+    
+    // Элементы DOM
+    const card = document.getElementById('status-card');
+    const loader = document.getElementById('loader');
+    const content = document.getElementById('content');
+    const errorCard = document.getElementById('error-card');
+    
+    const displayPhone = document.getElementById('display-phone');
+    const displayRoom = document.getElementById('display-room');
+    const displayDate = document.getElementById('display-date');
+
+    // Проверка, что все элементы существуют
+    if (!card || !loader || !content || !errorCard || !displayPhone || !displayRoom || !displayDate) {
+      console.error("Critical elements not found in DOM");
+      return;
+    }
+
+    const phone = localStorage.getItem('current_user_phone');
+
+   const roomNames = {
+      'forest': 'Pokój Leśny',
+      'stream': 'Studio Potok',       // New
+      'loft': 'Loft Górski',          // New
+      'family': 'Apartament Rodzinny',
+      'zen': 'Apartament Zen (SPA)',  // New
+      'wisla': 'Apartament Wisła'
+    };
+
+    async function checkBooking() {
+      // Показываем карточку плавно
+      setTimeout(() => card.classList.remove('opacity-0'), 100);
+
+      if (!phone) {
+        // Если телефона нет в локалсторадж - ошибка
+        card.classList.add('hidden');
+        errorCard.classList.remove('hidden');
+        return;
+      }
+
+      console.log("Checking booking for:", phone);
+
+      // ЗАПРОС К SUPABASE
+      const { data, error } = await supabase
+        .from('bookings')
+        .select('*')
+        .eq('phone', phone)
+        .order('created_at', { ascending: false }) // Берем самую свежую
+        .limit(1)
+        .single();
+
+      if (error || !data) {
+         console.error('Booking not found or error:', error);
+         loader.classList.add('hidden');
+         card.classList.add('hidden');
+         errorCard.classList.remove('hidden');
+      } else {
+         // Успех!
+         console.log("Booking found:", data);
+         
+         loader.classList.add('hidden');
+         content.classList.remove('hidden');
+         
+         // Заполняем данные
+         displayPhone.textContent = data.phone;
+         // @ts-ignore
+         displayRoom.textContent = roomNames[data.room_id] || 'Apartament';
+         displayDate.textContent = data.check_in_date || 'Termin do ustalenia';
+         
+         // Зеленая рамка
+         card.classList.remove('border-gray-200');
+         card.classList.add('border-green-500');
+      }
+    }
+
+    // Запуск логики
+    checkBooking();
+  });
+</script>

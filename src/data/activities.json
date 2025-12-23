@@ -1,0 +1,39 @@
+{
+  "heading": "Sztuka Celebrowania Chwil",
+  "subheading": "Doświadczenia w WislaStay",
+  "sections": [
+    {
+      "id": "restauracja",
+      "title": "Natura na Talerzu",
+      "category": "Kuchnia Leśna",
+      "description": "Nasza restauracja to hołd dla Beskidów. Michał Zawadzki, nasz Szef Kuchni, tworzy dania w duchu 'Forest-to-Table', używając pstrąga z górskiego potoku, dziczyzny i ziół zbieranych o świcie.",
+      "image": "/images/dining-main.webp",
+      "features": ["Menu degustacyjne", "Lokalne wina", "Widok na rzekę"]
+    },
+    {
+      "id": "wellness",
+      "title": "Wodne Ukojenie",
+      "category": "Wellness & SPA",
+      "description": "Zanurz się в basenie infinity, którego lustro wody zdaje się łączyć z nurtem Wisły. Skorzystaj z sauny fińskiej z widokiem na las i rytuałów opartych na soku z brzozy.",
+      "image": "/images/about-pool.webp",
+      "features": ["Basen Infinity", "Sauna z widokiem", "Naturalne rytuały"]
+    },
+    {
+      "id": "aktywnosci",
+      "title": "W Rytmie Gór",
+      "category": "Przygoda",
+      "description": "Od warsztatów wędkarstwa muchowego w nurcie Wisły, przez jogę o wschodzie słońca, aż po ekskluzywne grzybobranie z mikologiem. Odkryj Beskidy inaczej.",
+      "image": "/images/news-yoga.webp",
+      "features": ["Fly Fishing", "Yoga Retreats", "Leśne kąpiele"]
+    },
+    {
+  "id": "club",
+  "title": "Klub Nocny: Private Gaming",
+  "category": "Rozrywka",
+  "url": "/club",
+  "description": "Kameralny klub gier dostępny wyłącznie dla gości WislaStay. Poker, blackjack i ruletka w atmosferze dyskrecji и luksusu.",
+  "image": "/images/club-interior.webp",
+  "features": ["Tylko dla gości hotelowych", "Profesjonalne stoły", "Bar z selekcją Premium"]
+}
+  ]
+}

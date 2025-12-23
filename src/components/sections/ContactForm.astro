@@ -1,0 +1,152 @@
+---
+// Секция с контактной формой и интеграцией Supabase
+---
+
+<section id="kontakt" class="py-20 md:py-32 bg-primary text-white overflow-hidden">
+  <div class="container-main">
+    
+    <div class="mb-16 md:mb-24">
+      <h2 class="font-serif text-5xl md:text-7xl uppercase leading-none tracking-wide">
+        Zapytaj <span class="italic text-accent font-light">o Ofertę</span>
+      </h2>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-20 items-center">
+      
+      <div class="lg:col-span-5 order-2 lg:order-1">
+        <form id="contact-form" class="flex flex-col gap-10" novalidate>
+          
+          <div class="group relative">
+            <input 
+              type="text" 
+              id="contact-name" 
+              name="name" 
+              placeholder=" " 
+              class="peer w-full bg-transparent border-b border-white/30 py-4 text-lg focus:outline-none focus:border-accent transition-colors duration-300"
+              required
+            />
+            <label 
+              for="contact-name" 
+              class="absolute left-0 top-4 text-white/50 text-sm uppercase tracking-widest transition-all duration-300 peer-focus:-top-4 peer-focus:text-xs peer-focus:text-accent peer-[:not(:placeholder-shown)]:-top-4 peer-[:not(:placeholder-shown)]:text-xs peer-[:not(:placeholder-shown)]:text-accent pointer-events-none"
+            >
+              Twoje Imię
+            </label>
+          </div>
+
+          <div class="group relative">
+            <input 
+              type="email" 
+              id="contact-email" 
+              name="email" 
+              placeholder=" " 
+              class="peer w-full bg-transparent border-b border-white/30 py-4 text-lg focus:outline-none focus:border-accent transition-colors duration-300"
+              required
+            />
+            <label 
+              for="contact-email" 
+              class="absolute left-0 top-4 text-white/50 text-sm uppercase tracking-widest transition-all duration-300 peer-focus:-top-4 peer-focus:text-xs peer-focus:text-accent peer-[:not(:placeholder-shown)]:-top-4 peer-[:not(:placeholder-shown)]:text-xs peer-[:not(:placeholder-shown)]:text-accent pointer-events-none"
+            >
+              Adres Email
+            </label>
+          </div>
+
+          <div class="group relative">
+            <textarea 
+              id="contact-message" 
+              name="message" 
+              rows="4" 
+              placeholder=" " 
+              class="peer w-full bg-transparent border-b border-white/30 py-4 text-lg focus:outline-none focus:border-accent transition-colors duration-300 resize-none"
+              required
+            ></textarea>
+            <label 
+              for="contact-message" 
+              class="absolute left-0 top-4 text-white/50 text-sm uppercase tracking-widest transition-all duration-300 peer-focus:-top-4 peer-focus:text-xs peer-focus:text-accent peer-[:not(:placeholder-shown)]:-top-4 peer-[:not(:placeholder-shown)]:text-xs peer-[:not(:placeholder-shown)]:text-accent pointer-events-none"
+            >
+              Twoja Wiadomość
+            </label>
+          </div>
+
+          <div class="flex flex-col gap-4">
+            <button 
+              type="submit" 
+              id="contact-submit-btn"
+              class="mt-8 bg-white text-primary w-full py-5 text-sm font-bold uppercase tracking-[0.25em] hover:bg-accent hover:text-white transition-all duration-500 cursor-pointer disabled:opacity-50"
+            >
+              Wyślij Zapytanie
+            </button>
+            <p id="contact-status-msg" class="text-[10px] uppercase tracking-widest text-center opacity-0 transition-opacity duration-300 font-bold"></p>
+          </div>
+
+        </form>
+      </div>
+
+      <div class="lg:col-span-7 order-1 lg:order-2 h-full">
+        <div class="relative overflow-hidden aspect-[4/3] lg:aspect-auto lg:h-[600px] group">
+          <img 
+            src="/images/contact-room.webp" 
+            alt="WislaStay Interior" 
+            class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 opacity-90"
+          />
+          <div class="absolute inset-8 border border-white/10 pointer-events-none"></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<script>
+  // ВНИМАНИЕ: Проверь путь! 
+  // Если этот файл в src/pages/, то: '../lib/supabase'
+  // Если этот файл в src/components/, то: '../lib/supabase'
+  import { supabase } from '../../lib/supabase';
+
+  const contactForm = document.getElementById('contact-form') as HTMLFormElement;
+  const submitBtn = document.getElementById('contact-submit-btn') as HTMLButtonElement;
+  const statusMsg = document.getElementById('contact-status-msg');
+
+  contactForm?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    if (!submitBtn || !statusMsg) return;
+
+    // Сброс статуса
+    statusMsg.classList.remove('opacity-100', 'text-accent', 'text-red-400');
+    statusMsg.classList.add('opacity-0');
+
+    // Простая валидация
+    const name = (document.getElementById('contact-name') as HTMLInputElement).value;
+    const email = (document.getElementById('contact-email') as HTMLInputElement).value;
+    const message = (document.getElementById('contact-message') as HTMLTextAreaElement).value;
+
+    if (!name || !email || !message) {
+      statusMsg.textContent = "Uzupełnij wszystkie pola";
+      statusMsg.classList.add('text-red-400', 'opacity-100');
+      return;
+    }
+
+    submitBtn.disabled = true;
+    submitBtn.textContent = "Wysyłanie...";
+
+    try {
+      const { error } = await supabase
+        .from('contact_messages')
+        .insert([{ name, email, message }]);
+
+      if (error) throw error;
+
+      statusMsg.textContent = "Wiadomość wysłana pomyślnie";
+      statusMsg.classList.add('text-accent', 'opacity-100');
+      contactForm.reset();
+      
+    } catch (err) {
+      console.error("Supabase Error:", err);
+      statusMsg.textContent = "Błąd wysyłania. Spróbuj ponownie.";
+      statusMsg.classList.add('text-red-400', 'opacity-100');
+    } finally {
+      submitBtn.disabled = false;
+      submitBtn.textContent = "Wyślij Zapytanie";
+      setTimeout(() => statusMsg.classList.remove('opacity-100'), 5000);
+    }
+  });
+</script>

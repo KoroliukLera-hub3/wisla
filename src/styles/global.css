@@ -1,0 +1,56 @@
+@import "tailwindcss";
+@plugin "@tailwindcss/typography";
+
+
+
+/* --- 2. Тема (Tailwind v4 Config) --- */
+@theme {
+  /* Colors */
+  --color-primary: #0A0A0A;      /* Основной черный (текст) */
+  --color-secondary: #FFFFFF;    /* Чистый белый (для карточек/плашек) */
+  
+  /* Palette */
+  --color-accent: #c13f10;       /* Твой новый акцент (Rust Orange) */
+  --color-accent-hover: #A0340C; /* Чуть темнее для ховера */
+  
+  --color-surface: #E2E5EC;      /* Новый фон страницы (Platinum Grey) */
+  --color-blue-soft: #A2C4E9;    /* Дополнительный голубой (Air Blue) */
+  
+  /* Typography */
+  --font-serif: "Playfair Display", serif;
+  --font-sans: "Lato", sans-serif;
+
+  /* Layout */
+  --spacing-container: 1.5rem;
+}
+
+/* --- 3. Базовые стили --- */
+@layer base {
+  body {
+    /* Меняем фон на новый Surface, текст черный */
+    @apply bg-surface text-primary font-sans antialiased;
+    overflow-x: hidden;
+  }
+  
+  /* Типографика */
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-serif font-normal text-balance;
+  }
+  
+  /* Ссылки и кнопки по умолчанию */
+  a, button {
+    @apply transition-colors duration-300;
+  }
+}
+
+/* --- 4. Утилиты --- */
+@utility container-main {
+  @apply max-w-[1440px] mx-auto px-6 md:px-12;
+}
+
+/* Классы для анимаций (если нужны) */
+@layer utilities {
+  .text-shadow {
+    text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  }
+}

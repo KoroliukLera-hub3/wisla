@@ -1,0 +1,22 @@
+[
+  {
+    "icon": "coffee",
+    "title": "Smaki Natury",
+    "description": "Autorskie śniadania oparte na lokalnych, ekologicznych produktach. Delektuj się kawą przy akompaniamencie śpiewu ptaków i szumu rzeki."
+  },
+  {
+    "icon": "bed",
+    "title": "Architektura Ciszy",
+    "description": "Luksusowe wnętrza zaprojektowane tak, by zatrzeć granicę między pokojem a lasem. Idealna przestrzeń na głęboką regenerację."
+  },
+  {
+    "icon": "pool",
+    "title": "Wodne Ukojenie",
+    "description": "Nasz basen infinity wizualnie łączy się z nurtem Wisły. Poczuj lekkość, pływając w otoczeniu stuletnich drzew."
+  },
+  {
+    "icon": "spa",
+    "title": "Rytuały SPA",
+    "description": "Holistyczne zabiegi i masaże, które przywracają równowagę ciała i ducha, czerpiąc z naturalnych bogactw regionu."
+  }
+]

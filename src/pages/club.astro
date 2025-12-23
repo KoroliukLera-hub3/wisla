@@ -1,0 +1,196 @@
+---
+import MainLayout from '../layouts/MainLayout.astro';
+
+const features = [
+  { 
+    title: "Pełna Dyskrecja", 
+    desc: "Wejście do klubu jest monitorowane i dostępne wyłącznie dla gości posiadających aktywną kartę hotelową WislaStay." 
+  },
+  { 
+    title: "Klasyka i Emocje", 
+    desc: "Profesjonalne stoły do Poker Texas Hold'em, Blackjacka oraz Amerykańskiej Ruletki obsługiwane przez doświadczonych krupierów." 
+  },
+  { 
+    title: "Strefa Automatów", 
+    desc: "Najnowocześniejsze maszyny slotowe (slot machines) oferujące dynamiczną rozgrywkę i wysokie standardy bezpieczeństwa." 
+  }
+];
+
+const stats = [
+  { label: "Stoły do gier", value: "5" },
+  { label: "Automaty (Slots)", value: "12" },
+  { label: "Wstęp od lat", value: "18+" },
+  { label: "Dostęp", value: "24/7" }
+];
+
+// Dane dla nowych sekcji szczegółowych
+const gameDetails = [
+  {
+    title: "Królowa Kasyn: Ruletka",
+    desc: "Doświadcz magii najbardziej klasycznej gry na świecie. Nasza Amerykańska Ruletka to połączenie elegancji drewna wiśniowego z precyzją wykonania. Każdy obrót koła to chwila zawieszenia, w której liczy się tylko szczęście i intuicja.",
+    image: "/images/club-roulette.webp",
+    list: ["Zakłady wewnętrzne i zewnętrzne", "Profesjonalna obsługa krupierów", "Limitowane stoły dla pełnej dyskrecji"]
+  },
+  {
+    title: "Strategia i Styl: Poker & Blackjack",
+    desc: "Dla tych, którzy wolą pojedynek z kartami. Oferujemy stoły do Poker Texas Hold'em oraz Blackjacka. To tutaj chłodna kalkulacja spotyka się z dreszczem emocji, a wszystko to w atmosferze luksusowego baru z najlepszą selekcją whisky.",
+    image: "/images/club-cards.webp",
+    list: ["Stoły z zielonym filcem najwyższej klasy", "Prywatne turnieje dla grup", "Selekcja cygar i trunków przy stole"]
+  },
+  {
+    title: "Świat Cyfrowej Rozrywki: Slots",
+    desc: "Nasza strefa automatów to miejsce dla fanów nowoczesnych rozwiązań. Najnowocześniejsze <strong>maszyny slotowe (slot machines)</strong> oferują setki wariantów gry, od klasycznych owocówek po zaawansowane wideo-sloty z darmowymi spinami.",
+    image: "/images/club-slots.webp",
+    list: ["Grafika 4K i dźwięk przestrzenny", "Bonusy powitalne: free spins", "Pełna anonimowość rozgrywki"]
+  }
+];
+---
+
+<MainLayout title="Prywatny Klub Rozrywki | WislaStay">
+  
+  <section class="relative h-screen flex items-center justify-center overflow-hidden bg-primary">
+    <div class="absolute inset-0 z-0">
+      <img src="/images/club-interior.webp" alt="Ekskluzywny salon gier w Wiśle" class="w-full h-full object-cover opacity-40 scale-105 animate-slow-zoom" />
+      <div class="absolute inset-0 bg-gradient-to-b from-primary/80 via-transparent to-primary"></div>
+    </div>
+
+    <div class="relative z-10 container-main text-center">
+      <div class="inline-block border border-accent/50 px-4 py-1 mb-8 animate-fade-in">
+        <span class="text-accent font-bold uppercase tracking-[0.4em] text-[10px]">Tylko dla gości hotelowych</span>
+      </div>
+      <h1 class="font-serif text-6xl md:text-9xl text-white mb-10 animate-fade-in delay-100">
+        Klub <span class="italic text-gray-400">Nocny</span>
+      </h1>
+      <p class="text-xl md:text-2xl text-white/70 max-w-3xl mx-auto font-light font-serif mb-12 animate-fade-in delay-200 leading-relaxed">
+        Prywatna przestrzeń, w której luksus spotyka się z adrenaliną. Miejsce stworzone dla pasjonatów klasycznych gier stołowych oraz nowoczesnych automatów.
+      </p>
+      <div class="flex flex-col md:flex-row gap-6 justify-center items-center animate-fade-in delay-300">
+        <button 
+          onclick="window.openBookingDrawer('private-club')" 
+          class="bg-white text-primary px-12 py-5 font-bold uppercase tracking-widest text-xs hover:bg-accent hover:text-white transition-all shadow-2xl cursor-pointer"
+          data-analytics-action="club_reservation_click"
+        >
+          Zarezerwuj stolik VIP
+        </button>
+        <span class="text-white/40 text-[10px] uppercase tracking-widest font-bold">Wymagana pełnoletność</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="py-24 bg-primary text-white">
+    <div class="container-main">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
+        <div class="space-y-8">
+          <h2 class="font-serif text-4xl md:text-5xl leading-tight text-accent italic">
+            Nowoczesne Maszyny Slotowe i Klasyczny Hazard
+          </h2>
+          <p class="text-gray-400 font-light leading-relaxed text-lg">
+            W sercu WislaStay stworzyliśmy azyl dla graczy. Nasz klub oferuje unikalne połączenie tradycji z nowoczesnością. Na miłośników technologii czekają zaawansowane <strong>maszyny slotowe (slot machines)</strong>, które gwarantują płynną grafikę i uczciwe zasady gry.
+          </p>
+          <p class="text-gray-400 font-light leading-relaxed text-lg">
+            Dla stałych bywalców przygotowaliśmy program lojalnościowy: powitalne <strong>free spins (darmowe spiny)</strong> dostępne przy pierwszej wizycie w klubie, które pozwalają poczuć rytm naszych automatów bez pośpiechu.
+          </p>
+        </div>
+        <div class="grid grid-cols-2 gap-4">
+          {stats.map(s => (
+            <div class="bg-white/5 border border-white/10 p-8 text-center group hover:border-accent transition-colors">
+              <span class="block text-4xl font-serif text-accent mb-2 group-hover:scale-110 transition-transform">{s.value}</span>
+              <span class="block text-[10px] uppercase tracking-widest text-gray-500 font-bold">{s.label}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="py-12 bg-primary overflow-hidden">
+    {gameDetails.map((game, index) => (
+      <div class={`py-20 md:py-32 border-b border-white/5 last:border-0`}>
+        <div class="container-main">
+          <div class={`grid grid-cols-1 lg:grid-cols-12 gap-16 items-center`}>
+            
+            <div class={`lg:col-span-5 ${index % 2 === 1 ? 'lg:order-2' : ''}`}>
+              <h2 class="font-serif text-4xl md:text-5xl text-white mb-8 leading-tight">
+                {game.title.split(': ')[0]}<br/>
+                <span class="text-accent italic font-light">{game.title.split(': ')[1]}</span>
+              </h2>
+              <p class="text-gray-400 font-light text-lg leading-relaxed mb-10" set:html={game.desc}></p>
+              
+              <ul class="space-y-4 mb-12">
+                {game.list.map(item => (
+                  <li class="flex items-center gap-4 text-[10px] font-bold uppercase tracking-widest text-white/60">
+                    <span class="w-1 h-1 bg-accent"></span>
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <div class={`lg:col-span-7 ${index % 2 === 1 ? 'lg:order-1' : ''}`}>
+              <div class="relative group overflow-hidden shadow-2xl">
+                <img src={game.image} alt={game.title} class="w-full h-full object-cover transition-transform duration-[2000ms] group-hover:scale-110" />
+                <div class="absolute inset-0 bg-primary/20 group-hover:bg-transparent transition-colors duration-700"></div>
+                <div class="absolute inset-8 border border-white/10 pointer-events-none"></div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    ))}
+  </section>
+
+  <section class="py-24 bg-primary text-white border-t border-white/5">
+    <div class="container-main">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-16">
+        {features.map(f => (
+          <div class="text-center space-y-4">
+            <div class="w-12 h-[1px] bg-accent mx-auto mb-6"></div>
+            <h3 class="font-serif text-3xl text-white italic">{f.title}</h3>
+            <p class="text-gray-400 font-light leading-relaxed">{f.desc}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="py-12 bg-black text-white/40 border-t border-white/10">
+    <div class="container-main text-center">
+      <div class="max-w-4xl mx-auto space-y-6">
+        <div class="flex justify-center gap-4 mb-4 opacity-50">
+          <span class="border border-white/20 px-3 py-1 text-xs rounded-full">18+</span>
+          <span class="border border-white/20 px-3 py-1 text-xs rounded-full">Graj Odpowiedzialnie</span>
+        </div>
+        <p class="text-[10px] uppercase tracking-[0.1em] leading-relaxed">
+          Klub Gier WislaStay jest przeznaczony wyłącznie dla osób pełnoletnich. Hazard wiąże się z ryzykiem uzależnienia. 
+          Wstęp jest ograniczony wyłącznie dla zameldowanych gości hotelu. Zapewniamy pełne wsparcie w zakresie zasad odpowiedzialnej gry.
+          Pamiętaj, że gra na automatach typu <strong>spins slots</strong> ma charakter rozrywkowy.
+        </p>
+        <p class="text-[10px] text-accent/50 italic">
+          Kontakt dla osób potrzebujących pomocy: <a href="https://www.anonimowihazardzisci.org" class="underline hover:text-accent transition-colors">www.anonimowihazardzisci.org</a>
+        </p>
+      </div>
+    </div>
+  </section>
+
+</MainLayout>
+
+<style>
+  .animate-slow-zoom {
+    animation: slowZoom 30s infinite alternate ease-in-out;
+  }
+  @keyframes slowZoom {
+    from { transform: scale(1); }
+    to { transform: scale(1.15); }
+  }
+  .animate-fade-in {
+    opacity: 0;
+    transform: translateY(30px);
+    animation: fadeInUp 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+  .delay-100 { animation-delay: 0.2s; }
+  .delay-200 { animation-delay: 0.4s; }
+  @keyframes fadeInUp {
+    to { opacity: 1; transform: translateY(0); }
+  }
+</style>

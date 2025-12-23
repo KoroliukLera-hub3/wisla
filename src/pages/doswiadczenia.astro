@@ -1,0 +1,119 @@
+---
+import MainLayout from '../layouts/MainLayout.astro';
+import activities from '../data/activities.json';
+
+const arrowRight = `<svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>`;
+---
+
+<MainLayout title="Doświadczenia i Restauracja | WislaStay">
+  
+  <header class="relative h-[80vh] min-h-[600px] flex items-end pb-24 overflow-hidden bg-primary">
+    <div class="absolute inset-0 z-0">
+      <img src="/images/exp-hero.webp" alt="WislaStay Experience" class="w-full h-full object-cover opacity-60 animate-slow-zoom" />
+      <div class="absolute inset-0 bg-gradient-to-t from-primary via-transparent to-transparent"></div>
+    </div>
+    
+    <div class="relative z-10 container-main">
+      <span class="text-accent font-bold uppercase tracking-[0.3em] text-xs block mb-6 animate-fade-in">Beskidzki Styl Życia</span>
+      <h1 class="font-serif text-6xl md:text-8xl lg:text-9xl text-white leading-[0.9] mb-8 animate-fade-in delay-100">
+        Więcej niż <br/> <span class="italic font-light text-surface/70">odpoczynek</span>.
+      </h1>
+      <p class="text-xl md:text-2xl text-white/80 max-w-2xl font-light font-serif animate-fade-in delay-200">
+        Odkryj świat WislaStay, gdzie każda chwila jest zaprojektowana, by przywrócić Ci harmonię.
+      </p>
+    </div>
+  </header>
+
+  <nav class="sticky top-20 z-40 bg-white/80 backdrop-blur-md border-b border-gray-100 hidden md:block">
+    <div class="container-main flex justify-center gap-12 py-6">
+      {activities.sections.map(section => (
+        <a href={`#${section.id}`} class="text-[10px] font-bold uppercase tracking-widest text-primary hover:text-accent transition-colors">
+          {section.title}
+        </a>
+      ))}
+    </div>
+  </nav>
+
+  <section class="py-12 bg-white">
+    {activities.sections.map((section, index) => (
+      <div id={section.id} class={`py-24 md:py-32 border-b border-gray-50 last:border-0 ${index % 2 === 1 ? 'bg-surface/30' : ''}`}>
+        <div class="container-main">
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
+            
+            <div class={`lg:col-span-5 ${index % 2 === 1 ? 'lg:order-2' : 'lg:order-1'}`}>
+              <span class="text-accent text-[10px] font-bold uppercase tracking-[0.3em] block mb-4">
+                {section.category}
+              </span>
+              <h2 class="font-serif text-5xl md:text-6xl text-primary mb-8 leading-tight">
+                {section.title}
+              </h2>
+              <p class="text-gray-500 font-light text-lg leading-relaxed mb-10">
+                {section.description}
+              </p>
+              
+              <ul class="space-y-4 mb-12">
+                {section.features.map(feature => (
+                  <li class="flex items-center gap-4 text-xs font-bold uppercase tracking-widest text-primary/60">
+                    <span class="w-1.5 h-1.5 bg-accent rounded-full"></span>
+                    {feature}
+                  </li>
+                ))}
+              </ul>
+
+              {/* ЛОГИКА КНОПКИ: Если есть URL (как у Клуба), ведем на страницу. Если нет — открываем шторку */}
+              {section.url ? (
+                <a 
+                  href={section.url} 
+                  class="inline-flex items-center gap-4 bg-primary text-white px-10 py-5 text-[10px] font-bold uppercase tracking-[0.2em] hover:bg-accent transition-all shadow-xl group"
+                  data-analytics-action="view_activity_details"
+                  data-analytics-label={section.id}
+                >
+                  Zobacz szczegóły
+                  <span class="group-hover:translate-x-1 transition-transform" set:html={arrowRight} />
+                </a>
+              ) : (
+                <button 
+                  onclick={`window.openBookingDrawer('${section.id}')`} 
+                  class="inline-flex items-center gap-4 bg-primary text-white px-10 py-5 text-[10px] font-bold uppercase tracking-[0.2em] hover:bg-accent transition-all cursor-pointer shadow-xl group"
+                  data-analytics-action="open_booking_drawer_exp"
+                  data-analytics-label={section.id}
+                >
+                  Rezerwuj Doświadczenie 
+                  <span class="group-hover:translate-x-1 transition-transform" set:html={arrowRight} />
+                </button>
+              )}
+            </div>
+
+            <div class={`lg:col-span-7 relative ${index % 2 === 1 ? 'lg:order-1' : 'lg:order-2'}`}>
+              <div class="relative overflow-hidden aspect-[4/3] group shadow-2xl">
+                <img src={section.image} alt={section.title} class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105" />
+                <div class="absolute inset-0 bg-primary/5 group-hover:bg-transparent transition-colors duration-500"></div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    ))}
+  </section>
+</MainLayout>
+
+<style>
+  .animate-slow-zoom {
+    animation: slowZoom 20s infinite alternate ease-in-out;
+  }
+  @keyframes slowZoom {
+    from { transform: scale(1); }
+    to { transform: scale(1.1); }
+  }
+  .animate-fade-in {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+  .delay-100 { animation-delay: 0.1s; }
+  .delay-200 { animation-delay: 0.2s; }
+  @keyframes fadeInUp {
+    to { opacity: 1; transform: translateY(0); }
+  }
+</style>

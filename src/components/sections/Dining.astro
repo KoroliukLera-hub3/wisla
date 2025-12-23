@@ -1,0 +1,85 @@
+---
+import content from '../../data/dining.json';
+
+const { title, subtitle, description, menuHighlights, gallery } = content;
+---
+
+<section id="restauracja" class="py-24 md:py-32 bg-surface overflow-hidden relative">
+  
+  <div class="absolute inset-0 opacity-5 pointer-events-none" style="background-image: url('data:image/svg+xml,...');"></div>
+
+  <div class="container-main">
+    
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-24 items-center mb-24">
+      
+      <div class="lg:col-span-6 flex flex-col gap-10">
+        <div class="flex flex-col gap-4">
+          <span class="text-accent text-xs font-bold uppercase tracking-[0.25em]">{subtitle}</span>
+          <h2 class="font-serif text-5xl md:text-6xl text-primary leading-tight">
+            {title}
+          </h2>
+          <p class="text-gray-500 font-light leading-relaxed text-lg max-w-md">
+            {description}
+          </p>
+        </div>
+
+        <div class="relative group overflow-hidden h-[400px] w-full ">
+          <img 
+            src="/images/dining-main.webp" 
+            alt="Fine Dining Dish" 
+            class="w-full h-full  transition-transform duration-700 group-hover:scale-105"
+          />
+          <a href="/doswiadczenia" class="absolute bottom-0 right-0 bg-white text-primary px-8 py-4 text-xs font-bold uppercase tracking-widest hover:bg-accent hover:text-white transition-colors">
+            Zarezerwuj Stolik
+          </a>
+        </div>
+      </div>
+
+      <div class="lg:col-span-6 lg:pt-20">
+        <div class="relative bg-[#F9F9F7] p-8 md:p-12 shadow-[0_20px_50px_rgba(0,0,0,0.05)] border border-gray-100 max-w-lg mx-auto lg:mx-0 transform lg:rotate-1 hover:rotate-0 transition-transform duration-500">
+          <div class="w-12 h-1 bg-accent/20 mx-auto mb-10"></div>
+          <h3 class="font-serif text-center text-3xl text-primary mb-12 italic">Chef's Selection</h3>
+          <div class="flex flex-col gap-10">
+            {menuHighlights.map((item) => (
+              <div class="group border-b border-gray-200 pb-6 last:border-0 last:pb-0">
+                <div class="flex justify-between items-baseline mb-2">
+                  <h4 class="font-serif text-xl text-primary group-hover:text-accent transition-colors">
+                    {item.name}
+                  </h4>
+                  <span class="font-bold text-sm text-primary/60">{item.price}</span>
+                </div>
+                <p class="text-sm text-gray-500 font-light italic">
+                  {item.description}
+                </p>
+              </div>
+            ))}
+          </div>
+          <div class="mt-12 text-center">
+            <span class="font-serif text-accent text-sm tracking-widest uppercase opacity-60">Szef Kuchni Poleca</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 pt-12 border-t border-gray-100">
+      {gallery.map((item) => (
+        <div class="group flex flex-col gap-4 cursor-pointer">
+          <div class="relative overflow-hidden aspect-[4/5] bg-gray-100">
+             <img 
+              src={item.image} 
+              alt={item.name} 
+              class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 grayscale-[20%] group-hover:grayscale-0"
+            />
+            <div class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+          </div>
+          
+          <div class="flex justify-between items-center border-b border-transparent group-hover:border-accent pb-2 transition-all duration-300">
+            <h4 class="font-serif text-xl text-primary">{item.name}</h4>
+            <span class="text-xs font-bold text-accent uppercase tracking-widest">{item.price}</span>
+          </div>
+        </div>
+      ))}
+    </div>
+
+  </div>
+</section>

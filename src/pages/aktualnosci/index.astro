@@ -1,0 +1,142 @@
+---
+import MainLayout from '../../layouts/MainLayout.astro';
+import newsData from '../../data/news.json';
+
+// Сортировка новостей по дате (на всякий случай, чтобы новые были сверху)
+// Предполагаем, что даты в формате "DD miesiąc YYYY", но для простоты берем порядок из JSON (ты их добавлял по очереди)
+// Лучше просто взять реверс или оставить как есть, если в JSON они уже в нужном порядке.
+// Давай просто возьмем как есть, считая, что первый в JSON = самый актуальный (или наоборот).
+// Обычно новые добавляют в начало. Если у тебя старые сверху, сделаем .reverse()
+const sortedNews = [...newsData].reverse(); 
+
+const featuredPost = sortedNews[0]; // Самая свежая новость
+const otherPosts = sortedNews.slice(1); // Остальные
+---
+
+<MainLayout title="Dziennik WislaStay | Historie z Gór">
+  
+  <header class="pt-40 pb-20 bg-surface text-center">
+    <div class="container-main">
+      <span class="text-accent text-xs font-bold uppercase tracking-[0.25em] block mb-6 animate-fade-in">
+        Magazyn Hotelowy
+      </span>
+      <h1 class="font-serif text-6xl md:text-7xl lg:text-8xl text-primary mb-8 animate-fade-in delay-100">
+        Dziennik <span class="italic text-gray-400">Wisły</span>
+      </h1>
+      <p class="text-lg md:text-xl text-gray-500 font-light max-w-2xl mx-auto leading-relaxed animate-fade-in delay-200">
+        Odkryj historie pisane przez naturę, kulturę i pasję. Od kulinarnych sekretów szefa kuchni po szept beskidzkich lasów.
+      </p>
+    </div>
+  </header>
+
+  <section class="pb-32 bg-surface">
+    <div class="container-main">
+      
+      <a href={`/aktualnosci/${featuredPost.slug}`} class="group block mb-24 relative">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-0 lg:gap-12 items-center">
+          
+          <div class="lg:col-span-8 relative overflow-hidden aspect-[16/9] lg:aspect-[21/9]">
+            <img 
+              src={featuredPost.image} 
+              alt={featuredPost.title} 
+              class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105"
+            />
+            <div class="absolute inset-0 bg-black/10 group-hover:bg-transparent transition-colors duration-500"></div>
+          </div>
+
+          <div class="lg:col-span-4 mt-8 lg:mt-0 lg:-ml-24 relative z-10">
+            <div class="bg-white p-8 md:p-12 shadow-2xl border-l-4 border-accent">
+              <span class="text-accent text-xs font-bold uppercase tracking-widest block mb-4">
+                Najnowszy Wpis • {featuredPost.date}
+              </span>
+              <h2 class="font-serif text-3xl md:text-4xl text-primary leading-tight mb-6 group-hover:text-accent transition-colors">
+                {featuredPost.title}
+              </h2>
+              <p class="text-gray-500 font-light leading-relaxed mb-8 line-clamp-3">
+                {featuredPost.excerpt}
+              </p>
+              <span class="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-primary border-b border-primary pb-1 group-hover:border-accent group-hover:text-accent transition-all">
+                Czytaj historię
+              </span>
+            </div>
+          </div>
+
+        </div>
+      </a>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-10 gap-y-16">
+        {otherPosts.map((post) => (
+          <article class="group flex flex-col h-full cursor-pointer">
+            
+            <a href={`/aktualnosci/${post.slug}`} class="block overflow-hidden aspect-[3/2] mb-6 relative">
+              <img 
+                src={post.image} 
+                alt={post.title} 
+                class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 grayscale-[10%] group-hover:grayscale-0"
+              />
+              <div class="absolute top-4 left-4 bg-white/90 backdrop-blur px-3 py-1.5 text-[10px] font-bold uppercase tracking-widest text-primary">
+                {post.date}
+              </div>
+            </a>
+            
+            <div class="flex flex-col flex-grow">
+              <h3 class="font-serif text-2xl text-primary mb-4 leading-tight group-hover:text-accent transition-colors">
+                <a href={`/aktualnosci/${post.slug}`}>
+                  {post.title}
+                </a>
+              </h3>
+              <p class="text-gray-500 text-sm leading-relaxed mb-6 flex-grow line-clamp-3 font-light">
+                {post.excerpt}
+              </p>
+              
+              <a href={`/aktualnosci/${post.slug}`} class="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-primary/60 group-hover:text-primary transition-colors mt-auto">
+                <span class="w-8 h-[1px] bg-primary/30 group-hover:bg-accent transition-colors"></span>
+                Czytaj dalej
+              </a>
+            </div>
+
+          </article>
+        ))}
+      </div>
+
+    </div>
+  </section>
+
+  <section class="py-24 bg-primary text-white relative overflow-hidden">
+   
+    
+    <div class="container-main relative z-10 text-center max-w-2xl mx-auto">
+      <h2 class="font-serif text-4xl md:text-5xl mb-6">Bądź częścią naszej historii</h2>
+      <p class="text-white/60 font-light mb-10 leading-relaxed">
+        Dołącz do grona przyjaciół WislaStay. Otrzymuj zaproszenia na wernisaże, degustacje i specjalne oferty pobytowe, zanim dowiedzą się o nich inni.
+      </p>
+      
+      <form class="flex flex-col md:flex-row gap-4">
+        <input 
+          type="email" 
+          placeholder="Twój adres email" 
+          class="flex-grow bg-white/10 border border-white/20 text-white placeholder-white/40 px-6 py-4 focus:outline-none focus:border-accent focus:bg-white/20 transition-all"
+        />
+        <button class="bg-white text-primary px-8 py-4 font-bold uppercase tracking-widest hover:bg-accent hover:text-white transition-colors duration-300">
+          Zapisz się
+        </button>
+      </form>
+    </div>
+  </section>
+
+</MainLayout>
+
+<style>
+  /* Анимация появления */
+  .animate-fade-in {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+  .delay-100 { animation-delay: 0.1s; }
+  .delay-200 { animation-delay: 0.2s; }
+
+  @keyframes fadeInUp {
+    to { opacity: 1; transform: translateY(0); }
+  }
+</style>

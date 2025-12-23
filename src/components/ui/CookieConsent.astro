@@ -1,0 +1,78 @@
+---
+// Компонент согласия на использование файлов cookie
+---
+
+<div 
+  id="cookie-banner" 
+  class="fixed bottom-6 left-6 right-6 md:left-auto md:max-w-md bg-primary text-white p-6 shadow-2xl z-[200] transform translate-y-[150%] transition-transform duration-700 ease-out border border-white/10"
+>
+  <div class="flex flex-col gap-4">
+    <div class="flex items-center gap-3 text-accent">
+      <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 256 256" fill="currentColor">
+        <path d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm0,192a88,88,0,1,1,88-88A88.1,88.1,0,0,1,128,216ZM104,104a12,12,0,1,1,12,12A12,12,0,0,1,104,104Zm64,0a12,12,0,1,1,12,12A12,12,0,0,1,168,104Zm-40,80a32,32,0,0,1-32-32,8,8,0,0,1,16,0,16,16,0,0,0,32,0,8,8,0,0,1,16,0A32,32,0,0,1,128,184Z"></path>
+      </svg>
+      <span class="text-[10px] font-bold uppercase tracking-[0.2em]">Ciasteczka & Prywatność</span>
+    </div>
+    
+    <p class="text-xs text-gray-400 leading-relaxed font-light">
+      Używamy plików cookie, aby optymalizować działanie strony, analizować ruch i personalizować Twoje doświadczenia w <strong>WislaStay</strong>. Korzystając ze strony, zgadzasz się na naszą <a href="/polityka" class="text-white underline hover:text-accent transition-colors">Politykę Prywatności</a>.
+    </p>
+
+    <div class="flex gap-4 pt-2">
+      <button 
+        id="accept-cookies" 
+        class="flex-1 bg-white text-primary py-3 text-[10px] font-bold uppercase tracking-widest hover:bg-accent hover:text-white transition-all cursor-pointer"
+        data-analytics-action="cookies_accept"
+      >
+        Akceptuję
+      </button>
+      <button 
+        id="decline-cookies" 
+        class="flex-1 border border-white/20 py-3 text-[10px] font-bold uppercase tracking-widest hover:border-white transition-all cursor-pointer"
+        data-analytics-action="cookies_decline"
+      >
+        Odrzuć
+      </button>
+    </div>
+  </div>
+</div>
+
+<script>
+  const banner = document.getElementById('cookie-banner');
+  const acceptBtn = document.getElementById('accept-cookies');
+  const declineBtn = document.getElementById('decline-cookies');
+
+  const COOKIE_KEY = 'wislastay_cookies_accepted';
+
+  // Функция для логов (как в BookingDrawer)
+  const logCookieAction = (action: string) => {
+    console.log(`[Analytics] Cookies: ${action}`);
+    // window.dataLayer?.push({'event': 'cookie_consent', 'action': action});
+  };
+
+  // Проверка, был ли сделан выбор
+  window.addEventListener('load', () => {
+    const status = localStorage.getItem(COOKIE_KEY);
+    if (!status && banner) {
+      setTimeout(() => {
+        banner.classList.remove('translate-y-[150%]');
+      }, 2000); // Показываем через 2 секунды после загрузки
+    }
+  });
+
+  const hideBanner = () => {
+    banner?.classList.add('translate-y-[150%]');
+  };
+
+  acceptBtn?.addEventListener('click', () => {
+    localStorage.setItem(COOKIE_KEY, 'true');
+    logCookieAction('accepted');
+    hideBanner();
+  });
+
+  declineBtn?.addEventListener('click', () => {
+    localStorage.setItem(COOKIE_KEY, 'false');
+    logCookieAction('declined');
+    hideBanner();
+  });
+</script>

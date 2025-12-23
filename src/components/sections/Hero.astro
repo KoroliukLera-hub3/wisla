@@ -1,0 +1,70 @@
+---
+import BookingWidget from '../ui/BookingWidget.astro';
+
+interface Props {
+  title?: string;
+  subtitle?: string;
+  imagePath?: string;
+}
+
+const {
+  title = 'Doświadcz Czystego Luksusu', // "Испытай чистую роскошь"
+  subtitle = 'Wypoczynek • Kuchnia • Rozrywka', // "Отдых • Кухня • Развлечения"
+  imagePath = '/images/hero-main.webp',
+} = Astro.props;
+---
+
+<section class="relative min-h-[90vh] flex items-center justify-center pt-20 pb-32 ">
+  
+  <div class="absolute inset-0 z-0">
+    <img
+      src={imagePath}
+      alt="Grand Hotel Wisla"
+      class="w-full h-full  object-cover"
+      fetchpriority="high"
+    />
+    <div class="absolute inset-0 bg-gradient-to-r from-black/50 via-black/20 to-black/50"></div>
+  </div>
+
+  <div class="relative z-10 container-main text-center text-surface mt-10 md:mt-0 flex flex-col items-center">
+    <p class="font-sans text-xs md:text-sm font-bold tracking-[0.3em] uppercase mb-6 text-surface animate-fade-in">
+      {subtitle}
+    </p>
+    
+    <h1 class="font-serif text-5xl md:text-7xl lg:text-8xl leading-[1.1] mb-10 drop-shadow-2xl text-balance max-w-5xl animate-fade-in delay-100">
+      {title}
+    </h1>
+    
+    <div class="flex gap-4 animate-fade-in delay-200">
+        <a href="#pokoje" class="bg-surface text-primary px-8 py-4 text-xs font-bold uppercase tracking-widest hover:bg-accent hover:text-surface transition-all duration-300">
+          Nasze Pokoje
+        </a>
+        <a href="#Doswiadczenia" class="border border-surface px-8 py-4 text-xs font-bold uppercase tracking-widest text-surface hover:bg-surface hover:text-primary transition-all duration-300">
+          Doswiadczenia
+        </a>
+    </div>
+  </div>
+
+  <div class="absolute bottom-0 left-0 right-0 z-30 translate-y-[40%] px-4 animate-fade-in delay-300">
+    <BookingWidget />
+  </div>
+
+</section>
+
+<style>
+  .animate-fade-in {
+    opacity: 0;
+    transform: translateY(30px);
+    animation: fadeInUp 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+  .delay-100 { animation-delay: 0.2s; }
+  .delay-200 { animation-delay: 0.4s; }
+  .delay-300 { animation-delay: 0.6s; }
+
+  @keyframes fadeInUp {
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+</style>

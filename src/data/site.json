@@ -1,0 +1,16 @@
+{
+  "name": "WislaStay",
+  "domain": "WislaStay.org",
+  "language": "pl",
+  "meta": {
+    "title": "WislaStay - Luksusowy Wypoczynek w Wiśle",
+    "description": "Odkryj luksusowy hotel butikowy w sercu Wisły. Ekskluzywne pokoje, wykwintna kuchnia i niezapomniane widoki."
+  },
+  "contact": {
+    "address": "ul. Górska 15, 43-460 Wisła, Polska",
+    "phone": "+48514318724",
+    "phoneDisplay": "+48514318724",
+    "email": "rezerwacje@wislastay.org"
+  }
+  
+}

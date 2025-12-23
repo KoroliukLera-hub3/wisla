@@ -1,0 +1,97 @@
+---
+import MainLayout from '../layouts/MainLayout.astro';
+
+const lastUpdate = "23 grudnia 2025";
+---
+
+<MainLayout title="Polityka Prywatności | WislaStay">
+  
+  <header class="pt-40 pb-20 bg-surface border-b border-gray-200">
+    <div class="container-main">
+      <span class="text-accent text-xs font-bold uppercase tracking-[0.25em] block mb-6 animate-fade-in">
+        Transparentność i Bezpieczeństwo
+      </span>
+      <h1 class="font-serif text-5xl md:text-7xl text-primary mb-8 animate-fade-in delay-100">
+        Polityka <span class="italic text-gray-400">Prywatności</span>
+      </h1>
+      <p class="text-gray-500 font-light max-w-2xl animate-fade-in delay-200">
+        Ostatnia aktualizacja: {lastUpdate}. <br/>
+        Twoja prywatność jest dla nas najwyższym priorytetem. Poniżej wyjaśniamy, jak chronimy Twoje dane w ekosystemie WislaStay.
+      </p>
+    </div>
+  </header>
+
+  <section class="py-24 bg-white">
+    <div class="container-main max-w-4xl mx-auto">
+      <div class="prose prose-lg max-w-none prose-p:text-gray-600 prose-headings:font-serif prose-headings:text-primary prose-strong:text-primary">
+        
+        <h2>1. Administrator Danych</h2>
+        <p>
+          Administratorem Twoich danych osobowych jest <strong>WislaStay</strong> z siedzibą przy ul. Górskiej 15, 43-460 Wisła, Polska. W sprawach związanych z ochroną danych możesz skontaktować się z nami pod adresem: 
+          <a href="mailto:rezerwacje@wislastay.org" class="text-accent underline">rezerwacje@wislastay.org</a>.
+        </p>
+
+        <h2>2. Cel i Zakres Zbierania Danych</h2>
+        <p>Przetwarzamy dane osobowe w następujących celach:</p>
+        <ul>
+          <li><strong>Realizacja Rezerwacji:</strong> Przetwarzamy numer telefonu, datę przyjazdu oraz wybrany apartament w celu sfinalizowania pobytu za pośrednictwem platformy Supabase.</li>
+          <li><strong>Klub Nocny:</strong> Weryfikacja pełnoletności i dostęp do strefy gier dla gości hotelowych.</li>
+          <li><strong>Newsletter:</strong> Wysyłanie ofert specjalnych po wyrażeniu dobrowolnej zgody.</li>
+          <li><strong>Kontakt:</strong> Odpowiedzi na zapytania przesłane przez formularz kontaktowy.</li>
+        </ul>
+
+        <h2>3. Bezpieczeństwo i Przechowywanie</h2>
+        <p>
+          Twoje dane są przechowywane w bezpiecznej chmurze <strong>Supabase</strong>, wykorzystującej zaawansowane szyfrowanie AES-256. Dostęp do danych mają wyłącznie upoważnieni pracownicy WislaStay oraz systemy techniczne niezbędne do obsługi rezerwacji.
+        </p>
+
+        <h2>4. Pliki Cookies i Analityka</h2>
+        <p>
+          Używamy technologii śledzenia zdarzeń (Analytics Events) w celu optymalizacji doświadczeń użytkownika. Monitorujemy interakcje z formularzami rezerwacji, aby zapewnić płynność procesu rezerwacyjnego. Dane te są zanonimizowane i służą celom statystycznym.
+        </p>
+
+        <h2>5. Prawa Użytkownika</h2>
+        <p>Zgodnie z rozporządzeniem RODO, przysługuje Ci prawo do:</p>
+        <ul>
+          <li>Dostępu do swoich danych oraz otrzymania ich kopii.</li>
+          <li>Sprostowania (poprawiania) swoich danych.</li>
+          <li>Usunięcia danych („prawo do bycia zapomnianym”).</li>
+          <li>Wniesienia sprzeciwu wobec przetwarzania danych w celach marketingowych.</li>
+        </ul>
+
+        <div class="bg-surface p-8 border-l-4 border-accent mt-16">
+          <h3 class="mt-0 font-serif">Informacja o Hazardzie</h3>
+          <p class="text-sm italic mb-0">
+            W związku z obecnością strefy gier w obiekcie, informujemy, że dane dotyczące wstępu do Klubu Nocnego mogą być przetwarzane w celu zapewnienia zgodności z polityką Responsible Gaming oraz Google Compliance. Wstęp do strefy gier jest dozwolony wyłącznie dla osób powyżej 18 roku życia.
+          </p>
+        </div>
+
+        <h2 class="mt-16">6. Kontakt</h2>
+        <p>
+          Jeśli masz pytania dotyczące naszej Polityki Prywatności, jesteśmy do Twojej dyspozycji:
+        </p>
+        <div class="not-prose flex flex-col gap-2 font-serif text-xl text-primary">
+          <span>WislaStay</span>
+          <span>ul. Górska 15, Wisła</span>
+          <a href="tel:+48514318724" class="hover:text-accent transition-colors">+48 514 318 724</a>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+</MainLayout>
+
+<style>
+  .animate-fade-in {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+  .delay-100 { animation-delay: 0.1s; }
+  .delay-200 { animation-delay: 0.2s; }
+
+  @keyframes fadeInUp {
+    to { opacity: 1; transform: translateY(0); }
+  }
+</style>

@@ -1,0 +1,90 @@
+---
+import MainLayout from '../layouts/MainLayout.astro';
+
+const lastUpdate = "23 grudnia 2025";
+---
+
+<MainLayout title="Regulamin Obiektu | WislaStay">
+  
+  <header class="pt-40 pb-20 bg-surface border-b border-gray-200">
+    <div class="container-main">
+      <span class="text-accent text-xs font-bold uppercase tracking-[0.25em] block mb-6 animate-fade-in">
+        Standardy i Zasady
+      </span>
+      <h1 class="font-serif text-5xl md:text-7xl text-primary mb-8 animate-fade-in delay-100">
+        Regulamin <span class="italic text-gray-400">WislaStay</span>
+      </h1>
+      <p class="text-gray-500 font-light max-w-2xl animate-fade-in delay-200">
+        Ostatnia aktualizacja: {lastUpdate}. <br/>
+        Prosimy o zapoznanie się z poniższymi zasadami, które zostały stworzone, aby zapewnić Państwu oraz innym gościom najwyższy poziom komfortu i bezpieczeństwa.
+      </p>
+    </div>
+  </header>
+
+  <section class="py-24 bg-white">
+    <div class="container-main max-w-4xl mx-auto">
+      <div class="prose prose-lg max-w-none prose-p:text-gray-600 prose-headings:font-serif prose-headings:text-primary prose-strong:text-primary">
+        
+        <h2>1. Postanowienia Ogólne</h2>
+        <p>
+          Regulamin określa zasady świadczenia usług, odpowiedzialności oraz przebywania na terenie obiektu <strong>WislaStay</strong> przy ul. Górskiej 15 w Wiśle. Dokonanie rezerwacji jest równoznaczne z akceptacją niniejszego regulaminu.
+        </p>
+
+        <h2>2. Doba Hotelowa i Rezerwacja</h2>
+        <ul>
+          <li>Doba hotelowa rozpoczyna się o godzinie <strong>15:00</strong> w dniu przyjazdu, a kończy o godzinie <strong>11:00</strong> w dniu wyjazdu.</li>
+          <li>Podstawą do zameldowania jest okazanie dokumentu tożsamości oraz podanie numeru telefonu użytego podczas rezerwacji w systemie.</li>
+          <li>Obiekt zastrzega sobie prawo do pobrania preautoryzacji karty płatniczej lub kaucji gotówkowej przy zameldowaniu.</li>
+        </ul>
+
+        <h2>3. Prywatny Klub Nocny i Strefa Gier</h2>
+        <div class="bg-surface p-8 border-l-4 border-accent my-10">
+          <h3 class="mt-0 font-serif">Zasady Korzystania z Klubu</h3>
+          <p class="text-sm leading-relaxed mb-4">
+            Strefa gier (Klub Nocny) jest dostępna wyłącznie dla zameldowanych gości hotelu WislaStay, którzy ukończyli <strong>18 rok życia</strong>.
+          </p>
+          <ul class="text-sm italic">
+            <li>Wstęp do klubu odbywa się na podstawie aktywnej karty pokojowej.</li>
+            <li>Na terenie klubu obowiązuje zakaz fotografowania oraz filmowania w celu zachowania pełnej dyskrecji gości.</li>
+            <li>Obiekt promuje zasady <strong>Responsible Gaming</strong>. Pracownicy mają prawo odmówić wstępu lub obsługi osobom wykazującym oznaki nadmiernej konsumpcji alkoholu lub zachowań agresywnych.</li>
+          </ul>
+        </div>
+
+        <h2>4. Cisza Nocna i Odpowiedzialność</h2>
+        <p>
+          W obiekcie obowiązuje cisza nocna od godziny <strong>22:00 do 06:00</strong> rano. Wyjątkiem są imprezy zamknięte organizowane w wyznaczonych strefach (Restauracja, Klub Nocny), o których goście są informowani przy zameldowaniu.
+        </p>
+        <p>
+          Gość ponosi pełną odpowiedzialność materialną za wszelkiego rodzaju uszkodzenia lub zniszczenia przedmiotów wyposażenia i urządzeń technicznych powstałe z jego winy.
+        </p>
+
+        <h2>5. Bezpieczeństwo</h2>
+        <p>
+          Ze względów bezpieczeństwa przeciwpożarowego, w pokojach oraz na terenie całego obiektu (z wyjątkiem wyznaczonych tarasów) obowiązuje <strong>całkowity zakaz palenia</strong> wyrobów tytoniowych oraz e-papierosów.
+        </p>
+
+        <h2 class="mt-16">6. Reklamacje i Kontakt</h2>
+        <p>
+          Wszelkie uwagi dotyczące standardu świadczonych usług prosimy zgłaszać niezwłocznie do recepcji. Jesteśmy do Państwa dyspozycji pod numerem: 
+          <a href="tel:+48514318724" class="text-accent no-underline font-bold">+48 514 318 724</a>.
+        </p>
+
+      </div>
+    </div>
+  </section>
+
+</MainLayout>
+
+<style>
+  .animate-fade-in {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+  .delay-100 { animation-delay: 0.1s; }
+  .delay-200 { animation-delay: 0.2s; }
+
+  @keyframes fadeInUp {
+    to { opacity: 1; transform: translateY(0); }
+  }
+</style>
